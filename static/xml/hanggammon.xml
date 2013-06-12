@@ -58,11 +58,11 @@ table {
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.4" ></script>
 <script src="https://hanggammon.appspot.com/js/hangoutData.js"></script>
 <script src="https://hanggammon.appspot.com/js/gameState.js"></script>
+<script src="https://hanggammon.appspot.com/js/player.js"></script>
 <script src="https://hanggammon.appspot.com/js/history.js"></script>
 <script src="https://hanggammon.appspot.com/js/movement.js"></script>
 <script src="https://hanggammon.appspot.com/js/dice.js"></script>
 <script src="https://hanggammon.appspot.com/js/graphicalBoard.js"></script>
-<script src="https://hanggammon.appspot.com/js/player.js"></script>
 <script src="https://hanggammon.appspot.com/js/score.js"></script>
 <script src="https://hanggammon.appspot.com/js/seedrandom.js"></script>
 
@@ -177,8 +177,9 @@ function onStateChange(changeEvent)
 function onMessageReceived(messageReceivedEvent)
 {
   var board = messageReceivedEvent.message.substring(0, 1)
-  var message = messageReceivedEvent.message.substring(1)
-  histdiv_add(board, message);
+  var team = messageReceivedEvent.message.substring(1, 2)
+  var message = messageReceivedEvent.message.substring(2)
+  histdiv_add(board, team, message);
 }
 
 function updateDisplayState()

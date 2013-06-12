@@ -283,11 +283,7 @@ function boardStateToDisplay()
 
          // draw pieces
          for (var j = 0; j < 2; j++) {
-            if (j === 0) {
-               context.fillStyle = '#ff0000';
-            } else {
-               context.fillStyle = '#00ff00';
-            }
+            context.fillStyle = getTeamColor(j);
 
             for (var k = 0; k < numPiecesPerBoard; k++) {
                var stateString = gameState[getPieceKeyOnBoard(i, j, k)];

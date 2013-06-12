@@ -20,6 +20,8 @@ function rollDice() {
    commitQueuedStateUpdates();
 
    // add to both boards' history
-   history_add("0", "rolled " + diceOne.toString() + " " + diceTwo.toString());
-   history_add("1", "rolled " + diceOne.toString() + " " + diceTwo.toString());
+   history_add("0", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
+               " " + diceTwo.toString());
+   history_add("1", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
+               " " + diceTwo.toString());
 }

@@ -1,15 +1,18 @@
-function histdiv_add(board, msg)
+function histdiv_add(boardId, teamId, msg)
 {
-   var histDiv = document.getElementById('historyDiv' + board);
+   var histDiv = document.getElementById('historyDiv' + boardId);
+
+   // Team color
+   var newContent = '<font color=' + getTeamColor(teamId) + '>' + msg + '</font>';
 
    // prepend msg
-   msg += histDiv.innerHTML;
+   newContent += histDiv.innerHTML;
 
-   histDiv.innerHTML = msg;
+   histDiv.innerHTML = newContent;
 }
 
 
-function history_add(board, msg)
+function history_add(boardId, teamId, msg)
 {
    // first part of history is the timestamp
    var currentdate = new Date();
@@ -38,7 +41,7 @@ function history_add(board, msg)
    // finally the actual message
    hist += " " + msg + "<br>";
 
-   histdiv_add(board, hist);
+   histdiv_add(boardId, teamId, hist);
 
-   gapi.hangout.data.sendMessage(board + hist);
+   gapi.hangout.data.sendMessage(boardId + teamId + hist);
 }
