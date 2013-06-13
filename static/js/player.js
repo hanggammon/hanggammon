@@ -50,26 +50,6 @@ function board1TakeBottomSeat()
    commitQueuedStateUpdates();
 }
 
-function playerStateToDisplay()
-{
-   var board0TopDiv = document.getElementById('board0TopSeatName');
-   var board0BottomDiv = document.getElementById('board0BottomSeatName');
-   var board1TopDiv = document.getElementById('board1TopSeatName');
-   var board1BottomDiv = document.getElementById('board1BottomSeatName');
-
-   if (!boardFlipped) {
-      board0TopDiv.innerHTML = gameState[getPlayerNameKey(1, 0)];
-      board0BottomDiv.innerHTML = gameState[getPlayerNameKey(0, 0)];
-      board1TopDiv.innerHTML = gameState[getPlayerNameKey(1, 1)];
-      board1BottomDiv.innerHTML = gameState[getPlayerNameKey(0, 1)];
-   } else {
-      board0TopDiv.innerHTML = gameState[getPlayerNameKey(0, 0)];
-      board0BottomDiv.innerHTML = gameState[getPlayerNameKey(1, 0)];
-      board1TopDiv.innerHTML = gameState[getPlayerNameKey(0, 1)];
-      board1BottomDiv.innerHTML = gameState[getPlayerNameKey(1, 1)];
-   }
-}
-
 function getCurrentPlayerTeam()
 {
    var curPlayer = gapi.hangout.getLocalParticipant().person.displayName;
@@ -95,4 +75,29 @@ function getTeamColor(teamId)
    }
 
    return '#000000';
+}
+
+function wrapTextWithTeamColors(teamId, msg)
+{
+   return '<font color=' + getTeamColor(teamId) + '>' + msg + '</font>';
+}
+
+function playerStateToDisplay()
+{
+   var board0TopDiv = document.getElementById('board0TopSeatName');
+   var board0BottomDiv = document.getElementById('board0BottomSeatName');
+   var board1TopDiv = document.getElementById('board1TopSeatName');
+   var board1BottomDiv = document.getElementById('board1BottomSeatName');
+
+   if (!boardFlipped) {
+      board0TopDiv.innerHTML = wrapTextWithTeamColors(1, gameState[getPlayerNameKey(1, 0)]);
+      board0BottomDiv.innerHTML = wrapTextWithTeamColors(0, gameState[getPlayerNameKey(0, 0)]);
+      board1TopDiv.innerHTML = wrapTextWithTeamColors(1, gameState[getPlayerNameKey(1, 1)]);
+      board1BottomDiv.innerHTML = wrapTextWithTeamColors(0, gameState[getPlayerNameKey(0, 1)]);
+   } else {
+      board0TopDiv.innerHTML = wrapTextWithTeamColors(0, gameState[getPlayerNameKey(0, 0)]);
+      board0BottomDiv.innerHTML = wrapTextWithTeamColors(1, gameState[getPlayerNameKey(1, 0)]);
+      board1TopDiv.innerHTML = wrapTextWithTeamColors(0, gameState[getPlayerNameKey(0, 1)]);
+      board1BottomDiv.innerHTML = wrapTextWithTeamColors(1, gameState[getPlayerNameKey(1, 1)]);
+   }
 }

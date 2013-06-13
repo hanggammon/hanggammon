@@ -3,7 +3,7 @@ function histdiv_add(boardId, teamId, msg)
    var histDiv = document.getElementById('historyDiv' + boardId);
 
    // Team color
-   var newContent = '<font color=' + getTeamColor(teamId) + '>' + msg + '</font>';
+   var newContent = wrapTextWithTeamColors(teamId, msg);
 
    // prepend msg
    newContent += histDiv.innerHTML;
