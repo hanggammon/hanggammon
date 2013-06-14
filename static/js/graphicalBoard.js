@@ -338,6 +338,48 @@ function boardStateToDisplay()
                                      coords[j].x2 - coords[j].x1,
                                      coords[j].y2 - coords[j].y1);
                }
+
+               // Show guides for the current dice values
+               if (selectedSlot != pieceState.HIT_0 && selectedSlot != pieceState.HIT_1 &&
+                   selectedSlot != pieceState.PICKED_UP_0 && selectedSlot != pieceState.PICKED_UP_1) {
+                  context.strokeStyle = '#7694bd';
+                  var guideSlot;
+
+                  // Guide for dice 0
+                  if (getCurrentPlayerTeam() == 0) {
+                     guideSlot = selectedSlot + parseInt(gameState[getDiceValueKey(0)]);
+                  } else {
+                     guideSlot = selectedSlot - parseInt(gameState[getDiceValueKey(0)]);
+                  }
+
+                  if (guideSlot >= pieceState.IN_SLOT_0 && guideSlot <= pieceState.IN_SLOT_23) {
+                     coords = getCoordinatesFromSlot(guideSlot);
+                     for (var j = 0; j < coords.length; j++) {
+                        context.strokeRect(coords[j].x1,
+                                           coords[j].y1,
+                                           coords[j].x2 - coords[j].x1,
+                                           coords[j].y2 - coords[j].y1);
+                     }
+                  }
+
+                  // Guide for dice 1
+                  guideSlot = -1;
+                  if (getCurrentPlayerTeam() == 0) {
+                     guideSlot = selectedSlot + parseInt(gameState[getDiceValueKey(1)]);
+                  } else {
+                     guideSlot = selectedSlot - parseInt(gameState[getDiceValueKey(1)]);
+                  }
+
+                  if (guideSlot >= pieceState.IN_SLOT_0 && guideSlot <= pieceState.IN_SLOT_23) {
+                     coords = getCoordinatesFromSlot(guideSlot);
+                     for (var j = 0; j < coords.length; j++) {
+                        context.strokeRect(coords[j].x1,
+                                           coords[j].y1,
+                                           coords[j].x2 - coords[j].x1,
+                                           coords[j].y2 - coords[j].y1);
+                     }
+                  }
+               }
             }
          }
       }
