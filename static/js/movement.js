@@ -84,11 +84,11 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
           toSlot != pieceState.HIT_0 && toSlot !=pieceState.HIT_1) {
          history_add(boardId, getCurrentPlayerTeam(), " from " +
                      slotToString(fromSlot) + " to " + slotToString(toSlot) +
-                     " (HIT)");
+                     " [" + delta + "] (HIT)");
       } else {
          history_add(boardId, getCurrentPlayerTeam(), " from " +
                      slotToString(fromSlot) + " to " + slotToString(toSlot) +
-                     " [" + delta + "] (HIT)");
+                     " (HIT)");
       }
    } else {
       if (fromSlot != pieceState.PICKED_UP_0 && fromSlot != pieceState.PICKED_UP_1 &&
