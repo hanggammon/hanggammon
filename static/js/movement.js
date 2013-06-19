@@ -69,13 +69,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
    // send state update to the server
    commitQueuedStateUpdates();
 
-   var delta;
-
-   if (fromSlot >= toSlot) {
-      delta = fromSlot - toSlot;
-   } else {
-      delta = toSlot - fromSlot;
-   }
+   var delta = Math.abs(fromSlot - toSlot);
 
    if (numOpposingPieces == 1) {
       if (fromSlot != pieceState.PICKED_UP_0 && fromSlot != pieceState.PICKED_UP_1 &&
