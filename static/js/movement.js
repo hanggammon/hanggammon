@@ -69,12 +69,38 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
    // send state update to the server
    commitQueuedStateUpdates();
 
-   if (numOpposingPieces == 1) {
-      history_add(boardId, getCurrentPlayerTeam(), " from " +
-                  slotToString(fromSlot) + " to " + slotToString(toSlot) +
-                  " (HIT)");
+   var delta;
+
+   if (fromSlot >= toSlot) {
+      delta = fromSlot - toSlot;
    } else {
-      history_add(boardId, getCurrentPlayerTeam(), " from " +
-                  slotToString(fromSlot) + " to " + slotToString(toSlot));
+      delta = toSlot - fromSlot;
+   }
+
+   if (numOpposingPieces == 1) {
+      if (fromSlot != pieceState.PICKED_UP_0 && fromSlot != pieceState.PICKED_UP_1 &&
+          toSlot != pieceState.PICKED_UP_0 && toSlot != pieceState.PICKED_UP_1 &&
+          fromSlot != pieceState.HIT_0 && fromSlot !=pieceState.HIT_1 &&
+          toSlot != pieceState.HIT_0 && toSlot !=pieceState.HIT_1) {
+         history_add(boardId, getCurrentPlayerTeam(), " from " +
+                     slotToString(fromSlot) + " to " + slotToString(toSlot) +
+                     " [" + delta + "] (HIT)");
+      } else {
+         history_add(boardId, getCurrentPlayerTeam(), " from " +
+                     slotToString(fromSlot) + " to " + slotToString(toSlot) +
+                     " (HIT)");
+      }
+   } else {
+      if (fromSlot != pieceState.PICKED_UP_0 && fromSlot != pieceState.PICKED_UP_1 &&
+          toSlot != pieceState.PICKED_UP_0 && toSlot != pieceState.PICKED_UP_1 &&
+          fromSlot != pieceState.HIT_0 && fromSlot !=pieceState.HIT_1 &&
+          toSlot != pieceState.HIT_0 && toSlot !=pieceState.HIT_1) {
+         history_add(boardId, getCurrentPlayerTeam(), " from " +
+                     slotToString(fromSlot) + " to " + slotToString(toSlot));
+      } else {
+         history_add(boardId, getCurrentPlayerTeam(), " from " +
+                     slotToString(fromSlot) + " to " + slotToString(toSlot) + " ["
+                     + delta + "]");
+      }
    }
 }
