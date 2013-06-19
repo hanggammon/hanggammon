@@ -195,7 +195,6 @@ function resetGameState()
       movePiecesToStandardLocations(board);
    }
 
-   clearPlayers();
    initDiceState();
    initTeamScores();
    pushAllGameState();
