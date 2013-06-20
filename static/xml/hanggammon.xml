@@ -69,10 +69,6 @@ table {
 <span id="title" style="font-size:36px; font-weight:bold; margin:10px;">HangGammon</span>
 
 <input class="button" type="button" value="Reset Game" id="resetGameButton" onClick="resetGameState()" style="display:inline"/>
-<input class="button" type="button" value="Team0 +1" id="team0IncButton" onClick="team0ScoreInc()" style="display:inline"/>
-<input class="button" type="button" value="Team1 +1" id="team1IncButton" onClick="team1ScoreInc()" style="display:inline"/>
-<input class="button" type="button" value="Team0 -1" id="team0DecButton" onClick="team0ScoreDec()" style="display:inline"/>
-<input class="button" type="button" value="Team1 -1" id="team1DecButton" onClick="team1ScoreDec()" style="display:inline"/>
 <input class="button" type="button" value="Flip boards" id="flipBoardButton" onClick="flipBoardClicked()" style="display:inline"/>
 
 <div id="stateDiv"></div>
@@ -95,14 +91,34 @@ table {
          onclick="board0TakeBottomSeat()"/>
       </form>
     </td>
-    <td style="width:172px; vertical-align:middle; text-align:center;">
-      <form name="rollForm">
-        <input class="button" type="button" value="Roll 'em" id="rollDiceButton" onClick="rollDiceTest()"/>
-      </form>
-      <div id="diceValues">
-        <img id="dice1" src="//hanggammon.appspot.com/img/die1.png">
-        <img id="dice2" src="//hanggammon.appspot.com/img/die2.png">
-      </div>
+    <td style="width:172px; height:100%; vertical-align:middle; text-align:center;">
+      <table style="width:100%; height:500px">
+        <tr style="height:40%">
+          <td style="vertical-align:middle; text-align:center;">
+             <input class="button" type="button" value="-1" id="topTeamDecButton" onClick="topTeamScoreDec()" style="display:inline"/>
+             <div id="topTeamScore" style="margin:10px; font-size:200%; font-weight:bold; display:inline">0</div>
+             <input class="button" type="button" value="+1" id="topTeamIncButton" onClick="topTeamScoreInc()" style="display:inline"/>
+          </td>
+        </tr>
+        <tr style="height:20%">
+          <td style="vertical-align:middle; text-align:center;">
+             <form name="rollForm">
+               <input class="button" type="button" value="Roll 'em" id="rollDiceButton" onClick="rollDiceTest()"/>
+             </form>
+             <div id="diceValues">
+               <img id="dice1" src="//hanggammon.appspot.com/img/die1.png">
+               <img id="dice2" src="//hanggammon.appspot.com/img/die2.png">
+             </div>
+          </td>
+        </tr>
+        <tr style="height:40%">
+          <td style="vertical-align:middle; text-align:center;">
+             <input class="button" type="button" value="-1" id="bottomTeamDecButton" onClick="bottomTeamScoreDec()" style="display:inline"/>
+             <div id="bottomTeamScore" style="margin:10px; font-size:200%; font-weight:bold; display:inline">0</div>
+             <input class="button" type="button" value="+1" id="bottomTeamIncButton" onClick="bottomTeamScoreInc()" style="display:inline"/>
+          </td>
+        </tr>
+      </table>
     </td>
     <td style="vertical-align:middle; text-align:center;">
       <form name="board1top" style="margin:10px">
@@ -136,27 +152,6 @@ function rollDiceTest()
 {
    rollDice();
 }
-
-function team0ScoreInc()
-{
-   incScore(0);
-}
-
-function team1ScoreInc()
-{
-   incScore(1);
-}
-
-function team0ScoreDec()
-{
-   decScore(0);
-}
-
-function team1ScoreDec()
-{
-   decScore(1);
-}
-
 function flipBoardClicked()
 {
    flipBoard();
@@ -197,6 +192,7 @@ function updateDisplayState()
    diceRight.src = "//hanggammon.appspot.com/img/die" + diceRightValue + ".png";
 
    playerStateToDisplay();
+   scoreStateToDisplay();
 }
 
 function init() {

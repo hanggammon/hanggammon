@@ -26,3 +26,53 @@ function decScore(teamId)
 {
    return updateScore(teamId, -1);
 }
+
+function topTeamScoreInc()
+{
+   if (!boardFlipped) {
+      incScore(1);
+   } else {
+      incScore(0);
+   }
+}
+
+function bottomTeamScoreInc()
+{
+   if (!boardFlipped) {
+      incScore(0);
+   } else {
+      incScore(1);
+   }
+}
+
+function topTeamScoreDec()
+{
+   if (!boardFlipped) {
+      decScore(1);
+   } else {
+      decScore(0);
+   }
+}
+
+function bottomTeamScoreDec()
+{
+   if (!boardFlipped) {
+      decScore(0);
+   } else {
+      decScore(1);
+   }
+}
+
+function scoreStateToDisplay()
+{
+   var scoreTopDiv = document.getElementById('topTeamScore');
+   var scoreBottomDiv = document.getElementById('bottomTeamScore');
+
+   if (!boardFlipped) {
+      scoreTopDiv.innerHTML = wrapTextWithTeamColors(1, gameState[getTeamScoreKey(1)]);
+      scoreBottomDiv.innerHTML = wrapTextWithTeamColors(0, gameState[getTeamScoreKey(0)]);
+   } else {
+      scoreTopDiv.innerHTML = wrapTextWithTeamColors(0, gameState[getTeamScoreKey(0)]);
+      scoreBottomDiv.innerHTML = wrapTextWithTeamColors(1, gameState[getTeamScoreKey(1)]);
+   }
+}
