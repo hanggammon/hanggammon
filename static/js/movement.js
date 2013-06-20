@@ -69,32 +69,45 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
    // send state update to the server
    commitQueuedStateUpdates();
 
-   var delta = Math.abs(fromSlot - toSlot);
-
-   if (numOpposingPieces == 1) {
-      if (fromSlot != pieceState.PICKED_UP_0 && fromSlot != pieceState.PICKED_UP_1 &&
-          toSlot != pieceState.PICKED_UP_0 && toSlot != pieceState.PICKED_UP_1 &&
-          fromSlot != pieceState.HIT_0 && fromSlot !=pieceState.HIT_1 &&
-          toSlot != pieceState.HIT_0 && toSlot !=pieceState.HIT_1) {
-         history_add(boardId, getCurrentPlayerTeam(), " from " +
-                     slotToString(fromSlot) + " to " + slotToString(toSlot) +
-                     " [" + delta + "] (HIT)");
+   // show movement delta in history
+   var deltaStr;
+   if ((parseInt(fromSlot) >= pieceState.IN_SLOT_0) &&
+       (parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
+       (parseInt(toSlot) >= pieceState.IN_SLOT_0) &&
+       (parseInt(toSlot) <= pieceState.IN_SLOT_23)) {
+      // Move from a regular slot to a regular slot
+      deltaStr = " [" + Math.abs(fromSlot - toSlot) + "] ";
+   } else if ((parseInt(toSlot) == pieceState.PICKED_UP_0) ||
+              (parseInt(toSlot) == pieceState.PICKED_UP_1)) {
+      // Pickup move, display base slot number
+      if (teamId == 0) {
+         if ((parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
+             (parseInt(fromSlot) >= pieceState.IN_SLOT_18)) {
+            deltaStr = " [" + (24 - parseInt(fromSlot)) + "] ";
+         } else {
+            deltaStr = "";
+         }
       } else {
-         history_add(boardId, getCurrentPlayerTeam(), " from " +
-                     slotToString(fromSlot) + " to " + slotToString(toSlot) +
-                     " (HIT)");
+         if ((parseInt(fromSlot) <= pieceState.IN_SLOT_5) &&
+             (parseInt(fromSlot) >= pieceState.IN_SLOT_0)) {
+            deltaStr = " [" + (parseInt(fromSlot) + 1) + "] ";
+         } else {
+            deltaStr = "";
+         }
       }
    } else {
-      if (fromSlot != pieceState.PICKED_UP_0 && fromSlot != pieceState.PICKED_UP_1 &&
-          toSlot != pieceState.PICKED_UP_0 && toSlot != pieceState.PICKED_UP_1 &&
-          fromSlot != pieceState.HIT_0 && fromSlot !=pieceState.HIT_1 &&
-          toSlot != pieceState.HIT_0 && toSlot !=pieceState.HIT_1) {
-         history_add(boardId, getCurrentPlayerTeam(), " from " +
-                     slotToString(fromSlot) + " to " + slotToString(toSlot) + " ["
-                     + delta + "]");
-      } else {
-         history_add(boardId, getCurrentPlayerTeam(), " from " +
-                     slotToString(fromSlot) + " to " + slotToString(toSlot));
-      }
+      deltaStr = "";
    }
+
+   // show hits in history
+   var hitStr;
+   if (numOpposingPieces == 1) {
+      hitStr = " (HIT) ";
+   } else {
+      hitStr = "";
+   }
+
+   history_add(boardId, getCurrentPlayerTeam(), " from " +
+               slotToString(fromSlot) + " to " + slotToString(toSlot) +
+               hitStr + deltaStr);
 }
