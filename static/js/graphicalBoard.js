@@ -202,6 +202,29 @@ function drawTriangle(context, baseX, baseY, upwards)
    context.closePath();
 }
 
+
+// Show a dice guide with the given offset to selectedSlot
+function showDiceGuide(context, guideOffset)
+{
+   var guideSlot;
+
+   if (getCurrentPlayerTeam() == 0) {
+      guideSlot = selectedSlot + guideOffset;
+   } else {
+      guideSlot = selectedSlot - guideOffset;
+   }
+
+   if (guideSlot >= pieceState.IN_SLOT_0 && guideSlot <= pieceState.IN_SLOT_23) {
+      coords = getCoordinatesFromSlot(guideSlot);
+      for (var j = 0; j < coords.length; j++) {
+         context.strokeRect(coords[j].x1,
+                            coords[j].y1,
+                            coords[j].x2 - coords[j].x1,
+                            coords[j].y2 - coords[j].y1);
+      }
+   }
+}
+
 function boardStateToDisplay()
 {
    var boards = new Array();
@@ -343,41 +366,20 @@ function boardStateToDisplay()
                if (selectedSlot != pieceState.HIT_0 && selectedSlot != pieceState.HIT_1 &&
                    selectedSlot != pieceState.PICKED_UP_0 && selectedSlot != pieceState.PICKED_UP_1) {
                   context.strokeStyle = '#7694bd';
-                  var guideSlot;
+                  var dice0Val = parseInt(gameState[getDiceValueKey(0)]);
+                  var dice1Val = parseInt(gameState[getDiceValueKey(1)]);
 
-                  // Guide for dice 0
-                  if (getCurrentPlayerTeam() == 0) {
-                     guideSlot = selectedSlot + parseInt(gameState[getDiceValueKey(0)]);
-                  } else {
-                     guideSlot = selectedSlot - parseInt(gameState[getDiceValueKey(0)]);
-                  }
+                  // Dice guides for dice 0 and 1
+                  showDiceGuide(context, dice0Val);
+                  showDiceGuide(context, dice1Val);
 
-                  if (guideSlot >= pieceState.IN_SLOT_0 && guideSlot <= pieceState.IN_SLOT_23) {
-                     coords = getCoordinatesFromSlot(guideSlot);
-                     for (var j = 0; j < coords.length; j++) {
-                        context.strokeRect(coords[j].x1,
-                                           coords[j].y1,
-                                           coords[j].x2 - coords[j].x1,
-                                           coords[j].y2 - coords[j].y1);
-                     }
-                  }
+                  // Dice guide for the total
+                  showDiceGuide(context, dice0Val + dice1Val);
 
-                  // Guide for dice 1
-                  guideSlot = -1;
-                  if (getCurrentPlayerTeam() == 0) {
-                     guideSlot = selectedSlot + parseInt(gameState[getDiceValueKey(1)]);
-                  } else {
-                     guideSlot = selectedSlot - parseInt(gameState[getDiceValueKey(1)]);
-                  }
-
-                  if (guideSlot >= pieceState.IN_SLOT_0 && guideSlot <= pieceState.IN_SLOT_23) {
-                     coords = getCoordinatesFromSlot(guideSlot);
-                     for (var j = 0; j < coords.length; j++) {
-                        context.strokeRect(coords[j].x1,
-                                           coords[j].y1,
-                                           coords[j].x2 - coords[j].x1,
-                                           coords[j].y2 - coords[j].y1);
-                     }
+                  // If the roll is a double show guides for 3x and 4x as well
+                  if (dice0Val == dice1Val) {
+                     showDiceGuide(context, 3 * dice0Val);
+                     showDiceGuide(context, 4 * dice0Val);
                   }
                }
             }
