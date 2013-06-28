@@ -76,7 +76,32 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
        (parseInt(toSlot) >= pieceState.IN_SLOT_0) &&
        (parseInt(toSlot) <= pieceState.IN_SLOT_23)) {
       // Move from a regular slot to a regular slot
-      deltaStr = " [" + Math.abs(fromSlot - toSlot) + "] ";
+      var delta = Math.abs(fromSlot - toSlot);
+
+      var dice0Val = parseInt(gameState[getDiceValueKey(0)]);
+      var dice1Val = parseInt(gameState[getDiceValueKey(1)]);
+
+      if ((delta != dice0Val) && (delta != dice1Val)) {
+         // Need to break down the move into sub-dice moves
+         if (delta == dice0Val + dice1Val) {
+            // Playing the total
+            deltaStr = " [" + dice0Val + " + " + dice1Val + "] ";
+         } else if (dice0Val == dice1Val) {
+            // Doubles, see if the play is 3x or 4x
+            if (delta == dice0Val * 3) {
+               deltaStr = " [" + dice0Val + " + " + dice0Val + " + " +
+                          dice0Val + "]";
+            } else if (delta == dice0Val * 4) {
+               deltaStr = " [" + dice0Val + " + " + dice0Val + " + " +
+                          dice0Val + " + " + dice0Val + "]";
+            } else {
+               deltaStr = " [" + delta + "] ";
+            }
+         }
+      } else {
+         // Simply moving a dice value
+         deltaStr = " [" + delta + "] ";
+      }
    } else if ((parseInt(toSlot) == pieceState.PICKED_UP_0) ||
               (parseInt(toSlot) == pieceState.PICKED_UP_1)) {
       // Pickup move, display base slot number
