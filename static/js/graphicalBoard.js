@@ -257,13 +257,13 @@ function boardStateToDisplay()
          // Draw board borders
          context.strokeRect(leftHalfMinXCoord, 0, boardWidth, boardHeight);
 
-	 // Fill green pickup zone
-         context.fillStyle = '#e5ffe5';
-         context.fillRect(0, 0, leftHalfMinXCoord, boardHeight);
-
 	 // Fill red pickup zone
          context.fillStyle = '#ffe5e5';
-	 context.fillRect(rightHalfMaxXCoord, 0, boards[i].width)
+         context.fillRect(0, 0, leftHalfMinXCoord, boardHeight);
+
+	 // Fill green pickup zone
+         context.fillStyle = '#e5ffe5';
+	 context.fillRect(rightHalfMaxXCoord, 0, boards[i].width, boardHeight);
 
          // top triangles
          for (var j = 0; j < 12; j++) {
