@@ -95,6 +95,23 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
             deltaStr = "";
          }
       }
+   } else if ((parseInt(fromSlot) == pieceState.HIT_0) ||
+	       parseInt(fromSlot) == pieceState.HIT_1)){
+      if (teamId == 0) {
+        if ((parseInt(toSlot) <= pieceState.IN_SLOT_5) &&
+            (parseInt(toSlot) >= pieceState.IN_SLOT_0)) {
+          deltaStr = " [" + (parseInt(toSlot)) + 1) + "] ";
+	} else {
+          deltaStr = "";
+	}
+      }  else {
+        if ((parseInt(toSlot) <= pieceState.IN_SLOT_23) &&
+            (parseInt(toSlot) >= pieceState.IN_SLOT_18)) {
+            deltaStr = " [" + (24 - parseInt(toSlot)) + "] ";
+         } else {
+            deltaStr = "";
+         }
+      }
    } else {
       deltaStr = "";
    }
