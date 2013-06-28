@@ -100,7 +100,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       if (teamId == 0) {
         if ((parseInt(toSlot) <= pieceState.IN_SLOT_5) &&
             (parseInt(toSlot) >= pieceState.IN_SLOT_0)) {
-          deltaStr = " [" + (parseInt(toSlot)) + 1) + "] ";
+          deltaStr = " [" + (parseInt(toSlot) + 1) + "] ";
 	} else {
           deltaStr = "";
 	}
