@@ -96,7 +96,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
          }
       }
    } else if ((parseInt(fromSlot) == pieceState.HIT_0) ||
-	       parseInt(fromSlot) == pieceState.HIT_1)){
+	      (parseInt(fromSlot) == pieceState.HIT_1)){
       if (teamId == 0) {
         if ((parseInt(toSlot) <= pieceState.IN_SLOT_5) &&
             (parseInt(toSlot) >= pieceState.IN_SLOT_0)) {
