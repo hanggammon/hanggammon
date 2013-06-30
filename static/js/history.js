@@ -11,6 +11,13 @@ function histdiv_add(boardId, teamId, msg)
    histDiv.innerHTML = newContent;
 }
 
+function onHistoryUpdate(updateStr)
+{
+   var board = updateStr.substring(0, 1)
+   var team = updateStr.substring(1, 2)
+   var message = updateStr.substring(2)
+   histdiv_add(board, team, message);
+}
 
 function history_add(boardId, teamId, msg)
 {
@@ -41,7 +48,6 @@ function history_add(boardId, teamId, msg)
    // finally the actual message
    hist += " " + msg + "<br>";
 
-   histdiv_add(boardId, teamId, hist);
-
-   gapi.hangout.data.sendMessage(boardId + teamId + hist);
+   queueStateUpdate(getHistoryUpdateKey(), boardId + teamId + hist);
+   commitQueuedStateUpdates();
 }

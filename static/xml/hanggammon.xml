@@ -161,20 +161,25 @@ function flipBoardClicked()
 // Sync state update coming from the server
 function onStateChange(changeEvent)
 {
+   var needRedraw = false;
+
    // sync the changes to gameState
    for (var updatedKey in changeEvent.state) {
+      if (updatedKey == getHistoryUpdateKey()) {
+         // only update if we haven't seen this exact update
+         if (changeEvent.state[updatedKey] != gameState[updatedKey]) {
+            onHistoryUpdate(changeEvent.state[updatedKey]);
+         }
+      } else {
+         needRedraw = true;
+      }
+
       gameState[updatedKey] = changeEvent.state[updatedKey];
    }
-   
-   updateDisplayState();
-}
 
-function onMessageReceived(messageReceivedEvent)
-{
-  var board = messageReceivedEvent.message.substring(0, 1)
-  var team = messageReceivedEvent.message.substring(1, 2)
-  var message = messageReceivedEvent.message.substring(2)
-  histdiv_add(board, team, message);
+   if (needRedraw) {
+      updateDisplayState();
+   }
 }
 
 function updateDisplayState()
@@ -207,8 +212,6 @@ function init() {
             updateDisplayState();
 
             gapi.hangout.data.onStateChanged.add(onStateChange);
-
-            gapi.hangout.data.onMessageReceived.add(onMessageReceived);
          }
       }
    );

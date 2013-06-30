@@ -174,6 +174,12 @@ function pullAllGameState()
    }
 }
 
+// Get key for history updates
+function getHistoryUpdateKey()
+{
+   return 'historyUpdate';
+}
+
 // Get the started variable
 function getStarted()
 {
