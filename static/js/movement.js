@@ -71,6 +71,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
 
    // show movement delta in history
    var deltaStr = "";
+   var takeBackStr = "";
    if ((parseInt(fromSlot) >= pieceState.IN_SLOT_0) &&
        (parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
        (parseInt(toSlot) >= pieceState.IN_SLOT_0) &&
@@ -101,6 +102,17 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       } else {
          // Simply moving a dice value
          deltaStr = " [" + delta + "] ";
+      }
+
+      // Determine if the move is a takeback
+      if (getCurrentPlayerTeam() == 0) {
+         if (fromSlot > toSlot) {
+            takeBackStr = " > Take back < ";
+         }
+      } else {
+         if (toSlot > fromSlot) {
+            takeBackStr = " > Take back < ";
+         }
       }
    } else if ((parseInt(toSlot) == pieceState.PICKED_UP_0) ||
               (parseInt(toSlot) == pieceState.PICKED_UP_1)) {
@@ -142,5 +154,5 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
 
    history_add(boardId, getCurrentPlayerTeam(), " from " +
                slotToString(fromSlot) + " to " + slotToString(toSlot) +
-               hitStr + deltaStr);
+               hitStr + deltaStr + takeBackStr);
 }
