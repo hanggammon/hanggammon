@@ -70,7 +70,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
    commitQueuedStateUpdates();
 
    // show movement delta in history
-   var deltaStr;
+   var deltaStr = "";
    if ((parseInt(fromSlot) >= pieceState.IN_SLOT_0) &&
        (parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
        (parseInt(toSlot) >= pieceState.IN_SLOT_0) &&
@@ -109,15 +109,11 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
          if ((parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
              (parseInt(fromSlot) >= pieceState.IN_SLOT_18)) {
             deltaStr = " [" + (24 - parseInt(fromSlot)) + "] ";
-         } else {
-            deltaStr = "";
          }
       } else {
          if ((parseInt(fromSlot) <= pieceState.IN_SLOT_5) &&
              (parseInt(fromSlot) >= pieceState.IN_SLOT_0)) {
             deltaStr = " [" + (parseInt(fromSlot) + 1) + "] ";
-         } else {
-            deltaStr = "";
          }
       }
    } else if ((parseInt(fromSlot) == pieceState.HIT_0) ||
@@ -127,19 +123,13 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
          if ((parseInt(toSlot) <= pieceState.IN_SLOT_5) &&
              (parseInt(toSlot) >= pieceState.IN_SLOT_0)) {
             deltaStr = " [" + (parseInt(toSlot) + 1) + "] ";
-         } else {
-            deltaStr = "";
          }
       } else {
          if ((parseInt(toSlot) <= pieceState.IN_SLOT_23) &&
             (parseInt(toSlot) >= pieceState.IN_SLOT_18)) {
             deltaStr = " [" + (24 - parseInt(toSlot)) + "] ";
-         } else {
-            deltaStr = "";
          }
       }
-   } else {
-      deltaStr = "";
    }
 
    // show hits in history
