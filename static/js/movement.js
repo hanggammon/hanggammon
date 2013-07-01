@@ -107,7 +107,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
             takeBackStr = " > Take back < ";
          }
       } else {
-         if (toSlot > fromSlot) {
+         if (parseInt(toSlot) > parseInt(fromSlot)) {
             takeBackStr = " > Take back < ";
          }
       }
