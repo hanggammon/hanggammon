@@ -66,9 +66,6 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       }
    }
 
-   // send state update to the server
-   commitQueuedStateUpdates();
-
    // show movement delta in history
    var deltaStr = "";
    var takeBackStr = "";
@@ -152,7 +149,11 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       hitStr = "";
    }
 
-   history_add(boardId, getCurrentPlayerTeam(), " from " +
-               slotToString(fromSlot) + " to " + slotToString(toSlot) +
-               hitStr + deltaStr + takeBackStr);
+   history_buffer(boardId, getCurrentPlayerTeam(), " from " +
+                  slotToString(fromSlot) + " to " + slotToString(toSlot) +
+                  hitStr + deltaStr + takeBackStr);
+   history_queue();
+
+   // send state update to the server
+   commitQueuedStateUpdates();
 }

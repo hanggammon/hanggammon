@@ -16,12 +16,13 @@ function rollDice() {
    // Queue update to dice2
    queueStateUpdate(diceTwoKey, diceTwo.toString());
 
+   // add to both boards' history
+   history_buffer("0", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
+                  " " + diceTwo.toString());
+   history_buffer("1", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
+                  " " + diceTwo.toString());
+   history_queue();
+
    // send state update to the server
    commitQueuedStateUpdates();
-
-   // add to both boards' history
-   history_add("0", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
-               " " + diceTwo.toString());
-   history_add("1", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
-               " " + diceTwo.toString());
 }
