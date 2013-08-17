@@ -26,7 +26,7 @@ function rollDice() {
    queueStateUpdate(diceTwoKey, diceTwo.toString());
 
    // Queue update to dice owning team
-   queueStateUpdate(getDiceTeamKey(), getCurrentPlayerTeam().toString())
+   queueStateUpdate(getDiceTeamKey(), getCurrentPlayerTeam().toString());
 
    // add to both boards' history
    history_buffer("0", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
