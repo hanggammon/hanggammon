@@ -68,9 +68,9 @@ function getCurrentPlayerTeam()
 
 function getTeamColor(teamId)
 {
-   if (teamId === 0) {
+   if (teamId == '0') {
       return '#aa0000';
-   } else if (teamId == 1) {
+   } else if (teamId == '1') {
       return '#00aa00';
    }
 

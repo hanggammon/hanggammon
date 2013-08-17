@@ -9,6 +9,7 @@ function flipBoardClicked()
 }
 function rollDiceEnable()
 {
+   totalMovesLeft = 0;
    document.getElementById('rollDiceButton').disabled = false;
 }
 
@@ -86,6 +87,8 @@ function updateDisplayState()
    document.getElementById('movesLeft').innerHTML = totalMovesLeft.toString();
    if (totalMovesLeft === 0) {
       document.getElementById('rollDiceButton').disabled = false;
+   } else {
+      document.getElementById('rollDiceButton').disabled = true;
    }
 
    playerStateToDisplay();
