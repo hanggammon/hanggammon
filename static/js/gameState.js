@@ -1,5 +1,7 @@
 // Global game state array
 var gameState = [];
+var stateMetaData;
+var totalMovesLeft = 0;
 
 // Board definitions
 var numPiecesPerBoard = 15;
@@ -41,7 +43,7 @@ pieceState = {
    PICKED_UP_0 : 26,
    PICKED_UP_1 : 27,
    NUM_STATES  : 28
-}
+};
 
 // Return the string representation of a slot
 function slotToString(slotId)
@@ -127,10 +129,35 @@ function clearPlayers()
    }
 }
 
+function getMoveDeltaKey()
+{
+   return 'moveDelta';
+}
+
+function constructMoveDeltaMessage(delta)
+{
+   return getMoveDeltaKey() + ':' + delta.toString();
+}
+
+function getTotalMoveKey()
+{
+   return 'totalMoveLeft';
+}
+
+function constructTotalMoveMessage(val)
+{
+   return getTotalMoveKey() + ':' + val.toString();
+}
+
 // Return state key for dice value
 function getDiceValueKey(diceId)
 {
    return 'dice' + diceId + '_value';
+}
+
+function getDiceTeamKey()
+{
+   return 'diceTeam';
 }
 
 // Initialize dice state
@@ -172,6 +199,7 @@ function pullAllGameState()
          gameState[key] = all_state[key];
       }
    }
+   stateMetaData = gapi.hangout.data.getStateMetadata();
 }
 
 // Get key for history updates
@@ -202,6 +230,7 @@ function resetGameState()
    }
 
    initDiceState();
+   initTeamScores();
    pushAllGameState();
    var histDiv0 = document.getElementById('historyDiv0');
    var histDiv1 = document.getElementById('historyDiv1');
@@ -215,7 +244,7 @@ function initGameState()
    if (started != "started") {
       setStarted();
       resetGameState();
-      initTeamScores();
+      stateMetaData = gapi.hangout.data.getStateMetadata();
    } else {
       pullAllGameState();
    }
@@ -237,18 +266,18 @@ function gameStateToString()
    }
 
    for (var i = 0; i < numTeams; i++) {
-      for (var j = 0; j < numPlayers; j++) {
+      for (var j = 0; j < numPlayersPerTeam; j++) {
          returnStr += getPlayerNameKey(i,j) + ' = "' +
                       gameState[getPlayerNameKey(i, j)] + '"\n';
       }
    }
 
-   for (var i = 0; i < numDice; i++) {
+   for (i = 0; i < numDice; i++) {
       returnStr += getDiceValueKey(i) + ' = "' +
                    gameState[getDiceValueKey(i)] + '"\n';
    }
 
-   for (var i = 0; i < numDice; i++) {
+   for (i = 0; i < numDice; i++) {
       returnStr += getTeamScoreKey(i) + ' = "' +
                    gameState[getTeamScoreKey(i)] + '"\n';
    }

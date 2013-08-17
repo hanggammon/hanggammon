@@ -68,7 +68,7 @@ function getCurrentPlayerTeam()
 
 function getTeamColor(teamId)
 {
-   if (teamId == 0) {
+   if (teamId === 0) {
       return '#aa0000';
    } else if (teamId == 1) {
       return '#00aa00';
@@ -94,16 +94,16 @@ function playerStateToDisplay()
    var team0Player2 = gameState[getPlayerNameKey(1, 1)];
    var team1Player2 = gameState[getPlayerNameKey(0, 1)];
 
-   if (team0Player1 == undefined || team0Player1 == "undefined") {
+   if (team0Player1 === undefined || team0Player1 == "undefined") {
       team0Player1 = "Empty";
    }
-   if (team1Player1 == undefined || team1Player1 == "undefined") {
+   if (team1Player1 === undefined || team1Player1 == "undefined") {
       team1Player1 = "Empty";
    }
-   if (team0Player2 == undefined || team0Player2 == "undefined") {
+   if (team0Player2 === undefined || team0Player2 == "undefined") {
       team0Player2 = "Empty";
    }
-   if (team1Player2 == undefined || team1Player2 == "undefined") {
+   if (team1Player2 === undefined || team1Player2 == "undefined") {
       team1Player2 = "Empty";
    }
 

@@ -51,7 +51,7 @@ var flippedSlots = [pieceState.IN_SLOT_12,  // IN_SLOT_0
                     pieceState.HIT_1,       // HIT_0
                     pieceState.HIT_0,       // HIT_1
                     pieceState.PICKED_UP_1, // PICKED_UP_0
-                    pieceState.PICKED_UP_0] // PICKED_UP_1
+                    pieceState.PICKED_UP_0];// PICKED_UP_1
 
 function initGraphicalBoardEventHandlers()
 {
@@ -177,7 +177,7 @@ function getCoordinatesFromSlot(slot)
 function drawPiece(context, middleX, middleY)
 {
    context.beginPath();
-   context.arc(middleX, middleY, piece * .5, 0, 2 * Math.PI, false);
+   context.arc(middleX, middleY, piece * 0.5, 0, 2 * Math.PI, false);
    context.fill();
    context.stroke();
    context.closePath();
@@ -189,7 +189,7 @@ function drawTriangle(context, baseX, baseY, upwards)
 
    context.moveTo(baseX, baseY);
    context.lineTo(baseX + piece, baseY);
-   if (upwards == true) {
+   if (upwards === true) {
       context.lineTo(baseX + piece / 2, baseY - piece * 5);
    } else {
       context.lineTo(baseX + piece / 2, baseY + piece * 5);
@@ -208,7 +208,7 @@ function showDiceGuide(context, guideOffset)
 {
    var guideSlot;
 
-   if (getCurrentPlayerTeam() == 0) {
+   if (getCurrentPlayerTeam() === 0) {
       guideSlot = selectedSlot + guideOffset;
    } else {
       guideSlot = selectedSlot - guideOffset;
@@ -227,9 +227,10 @@ function showDiceGuide(context, guideOffset)
 
 function boardStateToDisplay()
 {
-   var boards = new Array();
+   var boards = [];
    boards[0] = document.getElementById('board0');
    boards[1] = document.getElementById('board1');
+   var j, middleOffset;
 
    for (var i = 0; i < boards.length; i++) {
 
@@ -257,16 +258,16 @@ function boardStateToDisplay()
          // Draw board borders
          context.strokeRect(leftHalfMinXCoord, 0, boardWidth, boardHeight);
 
-	 // Fill red pickup zone
+         // Fill red pickup zone
          context.fillStyle = '#ffe5e5';
          context.fillRect(0, 0, leftHalfMinXCoord, boardHeight);
 
-	 // Fill green pickup zone
+         // Fill green pickup zone
          context.fillStyle = '#e5ffe5';
-	 context.fillRect(rightHalfMaxXCoord, 0, boards[i].width, boardHeight);
+         context.fillRect(rightHalfMaxXCoord, 0, boards[i].width, boardHeight);
 
          // top triangles
-         for (var j = 0; j < 12; j++) {
+         for (j = 0; j < 12; j++) {
 
             // alternate black and white
             if (j % 2 === 0) {
@@ -276,7 +277,7 @@ function boardStateToDisplay()
             }
 
             // middle of board offset
-            var middleOffset = Math.floor(j / 6) * boardMiddle;
+            middleOffset = Math.floor(j / 6) * boardMiddle;
 
             drawTriangle(context,
                          leftHalfMinXCoord + piece * j + middleOffset + j, // baseX
@@ -285,7 +286,7 @@ function boardStateToDisplay()
          }
 
          // bottom triangles
-         for (var j = 0; j < 12; j++) {
+         for (j = 0; j < 12; j++) {
 
             // alternate black and white
             if (j % 2 === 1) {
@@ -295,7 +296,7 @@ function boardStateToDisplay()
             }
 
             // middle of board offset
-            var middleOffset = Math.floor(j / 6) * boardMiddle;
+            middleOffset = Math.floor(j / 6) * boardMiddle;
 
             drawTriangle(context,
                          leftHalfMinXCoord + piece * j + middleOffset + j, // baseX
@@ -313,25 +314,25 @@ function boardStateToDisplay()
          var numPiecesPerSlot = makeZeroFilledIntArray(pieceState.NUM_STATES);
 
          // draw pieces
-         for (var j = 0; j < 2; j++) {
+         for (j = 0; j < 2; j++) {
             context.fillStyle = getTeamColor(j);
 
             for (var k = 0; k < numPiecesPerBoard; k++) {
                var stateString = gameState[getPieceKeyOnBoard(i, j, k)];
                if (stateString !== undefined) {
-                  var stateInt = parseInt(stateString);
+                  var stateInt = parseInt(stateString, 10);
                   if (stateInt <= 11) { // one side of board
-                     var middleOffset = Math.floor(stateInt / 6) * boardMiddle;
+                     middleOffset = Math.floor(stateInt / 6) * boardMiddle;
                      drawPiece(context,
-                               leftHalfMinXCoord + piece * (stateInt + .5) + middleOffset + stateInt,
-                               piece * (numPiecesPerSlot[stateInt] + .5));
+                               leftHalfMinXCoord + piece * (stateInt + 0.5) + middleOffset + stateInt,
+                               piece * (numPiecesPerSlot[stateInt] + 0.5));
                      numPiecesPerSlot[stateInt]++;
                   } else if (stateInt <= 23) { // other side of board
-                     var remapped = Math.abs(stateInt - 23)
-                        var middleOffset = Math.floor(remapped / 6) * boardMiddle;
+                     var remapped = Math.abs(stateInt - 23);
+                     middleOffset = Math.floor(remapped / 6) * boardMiddle;
                      drawPiece(context,
-                               leftHalfMinXCoord + piece * (remapped + .5) + middleOffset + remapped,
-                               boardHeight - piece * (numPiecesPerSlot[stateInt] + .5));
+                               leftHalfMinXCoord + piece * (remapped + 0.5) + middleOffset + remapped,
+                               boardHeight - piece * (numPiecesPerSlot[stateInt] + 0.5));
                      numPiecesPerSlot[stateInt]++;
                   } else if (stateInt === pieceState.HIT_0) {
                      drawPiece(context,
@@ -345,13 +346,13 @@ function boardStateToDisplay()
                      numPiecesPerSlot[stateInt]++;
                   } else if (stateInt === pieceState.PICKED_UP_0) { // left team
                      drawPiece(context,
-                               piece * .5,
-                               piece * (numPiecesPerSlot[stateInt] + .5));
+                               piece * 0.5,
+                               piece * (numPiecesPerSlot[stateInt] + 0.5));
                      numPiecesPerSlot[stateInt]++;
                   } else if (stateInt === pieceState.PICKED_UP_1) { // right team
                      drawPiece(context,
-                               rightHalfMaxXCoord + piece * .5,
-                               piece * (numPiecesPerSlot[stateInt] + .5));
+                               rightHalfMaxXCoord + piece * 0.5,
+                               piece * (numPiecesPerSlot[stateInt] + 0.5));
                      numPiecesPerSlot[stateInt]++;
                   }
                }
@@ -363,7 +364,7 @@ function boardStateToDisplay()
             if (selectedBoard == i) {
                context.strokeStyle = '#ff0000';
                var coords = getCoordinatesFromSlot(selectedSlot);
-               for (var j = 0; j < coords.length; j++) {
+               for (j = 0; j < coords.length; j++) {
                   context.strokeRect(coords[j].x1,
                                      coords[j].y1,
                                      coords[j].x2 - coords[j].x1,
@@ -374,8 +375,8 @@ function boardStateToDisplay()
                if (selectedSlot != pieceState.HIT_0 && selectedSlot != pieceState.HIT_1 &&
                    selectedSlot != pieceState.PICKED_UP_0 && selectedSlot != pieceState.PICKED_UP_1) {
                   context.strokeStyle = '#7694bd';
-                  var dice0Val = parseInt(gameState[getDiceValueKey(0)]);
-                  var dice1Val = parseInt(gameState[getDiceValueKey(1)]);
+                  var dice0Val = parseInt(gameState[getDiceValueKey(0)], 10);
+                  var dice1Val = parseInt(gameState[getDiceValueKey(1)], 10);
 
                   // Dice guides for dice 0 and 1
                   showDiceGuide(context, dice0Val);
@@ -422,10 +423,6 @@ function handleSelectedSlot(boardId, newSlot)
             selectedSlot = newSlot;
             return true;
          } else { // movement!
-            /*
-             * XXX: this is super lame - try moving for both teams. This needs
-             *      to be fixed when we know the current player's teamId
-             */
             movePiece(boardId.toString(), "0", selectedSlot.toString(),
                       newSlot.toString());
             movePiece(boardId.toString(), "1", selectedSlot.toString(),
@@ -436,6 +433,7 @@ function handleSelectedSlot(boardId, newSlot)
             selectedSlot = -1;
 
             // No need for redraw, game state update from server will trigger it
+            // if necessary
             return false;
          }
       } else { // other board was selected, switch to this board
@@ -450,6 +448,11 @@ function handleSelectedSlot(boardId, newSlot)
 
 function mouseDownListenerZero(e)
 {
+   if (getCurrentPlayerTeam().toString() != gameState[getDiceTeamKey()]) {
+      /* Not this player's turn, ignore any move attempts */
+      return;
+   }
+
    var newSlot = getSlotFromCoordinates(e.offsetX, e.offsetY);
 
    if (boardFlipped === true) {
@@ -463,6 +466,11 @@ function mouseDownListenerZero(e)
 
 function mouseDownListenerOne(e)
 {
+   if (getCurrentPlayerTeam().toString() != gameState[getDiceTeamKey()]) {
+      /* Not this player's turn, ignore any move attempts */
+      return;
+   }
+
    var newSlot = getSlotFromCoordinates(e.offsetX, e.offsetY);
 
    if (boardFlipped === true) {
