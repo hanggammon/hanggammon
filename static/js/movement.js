@@ -69,12 +69,13 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
    // show movement delta in history
    var deltaStr = "";
    var takeBackStr = "";
+   var delta = 0;
    if ((parseInt(fromSlot) >= pieceState.IN_SLOT_0) &&
        (parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
        (parseInt(toSlot) >= pieceState.IN_SLOT_0) &&
        (parseInt(toSlot) <= pieceState.IN_SLOT_23)) {
       // Move from a regular slot to a regular slot
-      var delta = Math.abs(fromSlot - toSlot);
+      delta = Math.abs(fromSlot - toSlot);
 
       var dice0Val = parseInt(gameState[getDiceValueKey(0)]);
       var dice1Val = parseInt(gameState[getDiceValueKey(1)]);
@@ -105,10 +106,12 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       if (getCurrentPlayerTeam() == 0) {
          if (parseInt(fromSlot) > parseInt(toSlot)) {
             takeBackStr = " > Take back < ";
+            delta = delta * -1;
          }
       } else {
          if (parseInt(toSlot) > parseInt(fromSlot)) {
             takeBackStr = " > Take back < ";
+            delta = delta * -1;
          }
       }
    } else if ((parseInt(toSlot) == pieceState.PICKED_UP_0) ||
@@ -117,12 +120,14 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       if (teamId == 0) {
          if ((parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
              (parseInt(fromSlot) >= pieceState.IN_SLOT_18)) {
-            deltaStr = " [" + (24 - parseInt(fromSlot)) + "] ";
+            delta = 24 - parseInt(fromSlot);
+            deltaStr = " [" + delta + "] ";
          }
       } else {
          if ((parseInt(fromSlot) <= pieceState.IN_SLOT_5) &&
              (parseInt(fromSlot) >= pieceState.IN_SLOT_0)) {
-            deltaStr = " [" + (parseInt(fromSlot) + 1) + "] ";
+            delta = parseInt(fromSlot) + 1;
+            deltaStr = " [" + delta + "] ";
          }
       }
    } else if ((parseInt(fromSlot) == pieceState.HIT_0) ||
@@ -131,15 +136,23 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       if (teamId == 0) {
          if ((parseInt(toSlot) <= pieceState.IN_SLOT_5) &&
              (parseInt(toSlot) >= pieceState.IN_SLOT_0)) {
-            deltaStr = " [" + (parseInt(toSlot) + 1) + "] ";
+            delta = parseInt(toSlot) + 1;
+            deltaStr = " [" + delta + "] ";
          }
       } else {
          if ((parseInt(toSlot) <= pieceState.IN_SLOT_23) &&
             (parseInt(toSlot) >= pieceState.IN_SLOT_18)) {
-            deltaStr = " [" + (24 - parseInt(toSlot)) + "] ";
+            delta = 24 - parseInt(toSlot);
+            deltaStr = " [" + delta + "] ";
          }
       }
    }
+
+   totalMovesLeft = totalMovesLeft - delta;
+   if (totalMovesLeft === 0) {
+      updateDisplayState();
+   }
+   gapi.hangout.data.sendMessage(constructMoveDeltaMessage(delta));
 
    // show hits in history
    var hitStr;

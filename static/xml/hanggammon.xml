@@ -56,6 +56,7 @@ table {
 <body>
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.4" ></script>
+<script src="https://hanggammon.appspot.com/js/debuglog.js"></script>
 <script src="https://hanggammon.appspot.com/js/hangoutData.js"></script>
 <script src="https://hanggammon.appspot.com/js/gameState.js"></script>
 <script src="https://hanggammon.appspot.com/js/player.js"></script>
@@ -64,7 +65,7 @@ table {
 <script src="https://hanggammon.appspot.com/js/dice.js"></script>
 <script src="https://hanggammon.appspot.com/js/graphicalBoard.js"></script>
 <script src="https://hanggammon.appspot.com/js/score.js"></script>
-<script src="https://hanggammon.appspot.com/js/seedrandom.js"></script>
+<script src="https://hanggammon.appspot.com/js/main.js"></script>
 
 <span id="title" style="font-size:36px; font-weight:bold; margin:10px;">HangGammon</span>
 
@@ -72,6 +73,7 @@ table {
 <input class="button" type="button" value="Flip boards" id="flipBoardButton" onClick="flipBoardClicked()" style="display:inline"/>
 
 <div id="stateDiv"></div>
+<div id="queueDiv"></div>
 <div id="started"></div>
 
 <div id="horizontalSeparator" style="width:100%; height:1px; background-color:black; margin-top:10px; margin-bottom:10px;"></div>
@@ -109,6 +111,10 @@ table {
                <img id="dice1" src="//hanggammon.appspot.com/img/die1.png">
                <img id="dice2" src="//hanggammon.appspot.com/img/die2.png">
              </div>
+             <form name="resetButtonForm">
+               <input class="button" type="button" value="Enable Roll Button" id="enableRollButton" onClick="rollDiceEnable()"/>
+             </form>
+             <div id="movesLeft" style="margin:10px; font-size:200%; font-weight:bold; display:inline">0</div>
           </td>
         </tr>
         <tr style="height:40%">
@@ -148,62 +154,7 @@ table {
 
 <script>
 
-function rollDiceTest()
-{
-   rollDice();
-}
-function flipBoardClicked()
-{
-   flipBoard();
-   updateDisplayState();
-}
-
-// Sync state update coming from the server
-function onStateChange(changeEvent)
-{
-   var needRedraw = false;
-
-   // sync the changes to gameState
-   for (var updatedKey in changeEvent.state) {
-      if (updatedKey == getHistoryUpdateKey()) {
-         // only update if we haven't seen this exact update
-         if (changeEvent.state[updatedKey] != gameState[updatedKey]) {
-            onHistoryUpdate(changeEvent.state[updatedKey]);
-         }
-      } else {
-         needRedraw = true;
-      }
-
-      gameState[updatedKey] = changeEvent.state[updatedKey];
-   }
-
-   if (needRedraw) {
-      updateDisplayState();
-   }
-}
-
-function updateDisplayState()
-{
-   boardStateToDisplay();
-   //var stateDiv = document.getElementById('stateDiv');
-   //stateDiv.innerHTML = gameStateToString();
-
-   var diceLeftValue = gameState[getDiceValueKey(0)];
-   var diceLeft = document.getElementById('dice1');
-   diceLeft.src = "//hanggammon.appspot.com/img/die" + diceLeftValue + ".png";
-
-   var diceRightValue = gameState[getDiceValueKey(1)];
-   var diceRight = document.getElementById('dice2');
-   diceRight.src = "//hanggammon.appspot.com/img/die" + diceRightValue + ".png";
-
-   playerStateToDisplay();
-   scoreStateToDisplay();
-}
-
 function init() {
-   // Calling Math.seedrandom() which will seed Math.random with hopefully a very good seed for the dice
-   Math.seedrandom();
-
    // When API is ready...
    gapi.hangout.onApiReady.add(
       function(eventObj) {
@@ -212,6 +163,7 @@ function init() {
             updateDisplayState();
 
             gapi.hangout.data.onStateChanged.add(onStateChange);
+            gapi.hangout.data.onMessageReceived.add(onMessageReceived);
          }
       }
    );

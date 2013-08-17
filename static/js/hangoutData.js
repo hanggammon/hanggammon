@@ -17,10 +17,14 @@ function queueStateUpdate(keyToUpdate, newValue)
 // Commit queued updates to the server
 function commitQueuedStateUpdates()
 {
-   if (queuedUpdates.length == 0) {
+   if (queuedUpdates.length === 0) {
       return;
    }
 
+   LogQueueClear('<br>Commit: ');
+   for (var i in queuedUpdates) {
+      LogQueue(queuedUpdates[i].key + ' = ' + queuedUpdates[i].value + ',');
+   }
    // Use setValue() if there's a single update
    if (queuedUpdates.length == 1) {
       gapi.hangout.data.setValue(queuedUpdates[0].key,
@@ -29,7 +33,7 @@ function commitQueuedStateUpdates()
       var updateObj = {};
 
       // Push key/value pairs for each queued update
-      for (var i in queuedUpdates) {
+      for (i in queuedUpdates) {
          updateObj[queuedUpdates[i].key] = queuedUpdates[i].value;
       }
 
