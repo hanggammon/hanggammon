@@ -422,10 +422,6 @@ function handleSelectedSlot(boardId, newSlot)
             selectedSlot = newSlot;
             return true;
          } else { // movement!
-            /*
-             * XXX: this is super lame - try moving for both teams. This needs
-             *      to be fixed when we know the current player's teamId
-             */
             movePiece(boardId.toString(), "0", selectedSlot.toString(),
                       newSlot.toString());
             movePiece(boardId.toString(), "1", selectedSlot.toString(),
@@ -436,6 +432,7 @@ function handleSelectedSlot(boardId, newSlot)
             selectedSlot = -1;
 
             // No need for redraw, game state update from server will trigger it
+            // if necessary
             return false;
          }
       } else { // other board was selected, switch to this board
@@ -450,6 +447,11 @@ function handleSelectedSlot(boardId, newSlot)
 
 function mouseDownListenerZero(e)
 {
+   if (getCurrentPlayerTeam().toString() != gameState[getDiceTeamKey()]) {
+      /* Not this player's turn, ignore any move attempts */
+      return;
+   }
+
    var newSlot = getSlotFromCoordinates(e.offsetX, e.offsetY);
 
    if (boardFlipped === true) {
@@ -463,6 +465,11 @@ function mouseDownListenerZero(e)
 
 function mouseDownListenerOne(e)
 {
+   if (getCurrentPlayerTeam().toString() != gameState[getDiceTeamKey()]) {
+      /* Not this player's turn, ignore any move attempts */
+      return;
+   }
+
    var newSlot = getSlotFromCoordinates(e.offsetX, e.offsetY);
 
    if (boardFlipped === true) {
