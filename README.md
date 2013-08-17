@@ -49,3 +49,17 @@ With master checked out and up to date use the "Enter a hangout" link in the
 google API console to start a development hangout. You should see the game come
 up and be completely functional. Use the chrome development console to verify
 that the js sources were pulled from your IP.
+
+
+2 Syntax Checking
+===============
+
+2.1 Prerequisites
+=================
+- gnu make toolchain installation
+- nodejs installation for jshint
+
+2.2 Running the syntax checker
+==============================
+Run 'make check' from the static/ directory to check all .js files in js/ for
+syntax issues and coding style compliance.
