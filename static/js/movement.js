@@ -1,18 +1,18 @@
 function movePiece(boardId, teamId, fromSlot, toSlot)
 {
-   var piece = '';
+   var pieceToMove= '';
    var state;
 
    // Search gameState to see if teamId has a piece in fromSlot
    for (curPiece = 0; curPiece < numPiecesPerBoard; curPiece++) {
       state = gameState[getPieceKeyOnBoard(boardId, teamId, curPiece)];
       if (state === fromSlot) {
-         piece = curPiece;
+         pieceToMove = curPiece;
          break;
       }
    }
 
-   if (piece === '') {
+   if (pieceToMove === '') {
       // No piece found XXX: throw exception?
       return;
    }
