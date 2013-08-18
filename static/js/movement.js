@@ -1,3 +1,19 @@
+function moveDelta(str)
+{
+   var delta = parseInt(str, 10);
+
+   totalMovesLeft = totalMovesLeft - delta;
+   updateDisplayState();
+}
+
+
+function setTotalMovesLeft(str)
+{
+   totalMovesLeft = parseInt(str, 10);
+   updateDisplayState();
+}
+
+
 function movePiece(boardId, teamId, fromSlot, toSlot)
 {
    var movePiece = '';
@@ -133,10 +149,10 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
    } else if ((parseInt(fromSlot) == pieceState.HIT_0) ||
               (parseInt(fromSlot) == pieceState.HIT_1)) {
       // Bringing a hit piece back in, display base slot number
-      if (teamId == 0) {
-         if ((parseInt(toSlot) <= pieceState.IN_SLOT_5) &&
-             (parseInt(toSlot) >= pieceState.IN_SLOT_0)) {
-            delta = parseInt(toSlot) + 1;
+      if (teamId == '0') {
+         if ((parseInt(toSlot, 10) <= pieceState.IN_SLOT_5) &&
+             (parseInt(toSlot, 10) >= pieceState.IN_SLOT_0)) {
+            delta = parseInt(toSlot, 10) + 1;
             deltaStr = " [" + delta + "] ";
          }
       } else {
@@ -148,11 +164,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       }
    }
 
-   totalMovesLeft = totalMovesLeft - delta;
-   if (totalMovesLeft === 0) {
-      updateDisplayState();
-   }
-   gapi.hangout.data.sendMessage(constructMoveDeltaMessage(delta));
+   mbBroadcastRPC('moveDelta("' + delta.toString() + '");', true);
 
    // show hits in history
    var hitStr;

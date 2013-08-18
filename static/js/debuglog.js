@@ -1,5 +1,8 @@
 // adds extra logging into the state/queueDiv
 var verbose = 0;
+// debug logs for the message box
+var verboseMB = 0;
+var verboseMovePiece = 0;
 
 function AppendToElement(element, str)
 {
@@ -38,5 +41,26 @@ function LogQueueClear(str)
 {
    if (verbose > 0) {
       SetElement('queueDiv', str);
+   }
+}
+
+function LogMB(str)
+{
+   if (verboseMB > 0) {
+      AppendToElement('debugLogDiv', str + '<br>');
+   }
+}
+
+function LogMBClear(str)
+{
+   if (verboseMB > 0) {
+      SetElement('debugLogDiv', str);
+   }
+}
+
+function LogMovePiece(str)
+{
+   if (verboseMovePiece > 0) {
+      AppendToElement('debugLogDiv', str + '<br>');
    }
 }

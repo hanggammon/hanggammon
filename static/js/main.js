@@ -28,8 +28,9 @@ function onStateChange(changeEvent)
          LogState('(' + stateMetaData[key].timestamp + ')');
       }
       LogState(',');
-      if (!(key in stateMetaData) ||
-         changeEvent.metadata[key].timestamp != stateMetaData[key].timestamp) {
+      if (mbProcessKey(key, changeEvent.state[key]) &&
+          (!(key in stateMetaData) ||
+           changeEvent.metadata[key].timestamp != stateMetaData[key].timestamp)) {
          LogState('overwriting,');
          if (key == getDiceValueKey(0)) {
             // Disable the roll dice button if there was a dice roll
@@ -53,20 +54,6 @@ function onStateChange(changeEvent)
    if (needRedraw) {
       updateDisplayState();
    }
-}
-
-function onMessageReceived(messageReceivedEvent)
-{
-   var message = messageReceivedEvent.message;
-   var keyval = message.split(':');
-
-   if (keyval[0] == getMoveDeltaKey()) {
-      totalMovesLeft = totalMovesLeft - parseInt(keyval[1], 10);
-   } else if (keyval[0] == getTotalMoveKey()) {
-      totalMovesLeft = keyval[1];
-   }
-   
-   updateDisplayState();
 }
 
 
