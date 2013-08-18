@@ -422,6 +422,10 @@ function handleSelectedSlot(boardId, newSlot)
             selectedSlot = newSlot;
             return true;
          } else { // movement!
+            /*
+             * XXX: this is super lame - try moving for both teams. This needs
+             *      to be fixed when we know the current player's teamId
+             */
             movePiece(boardId.toString(), "0", selectedSlot.toString(),
                       newSlot.toString());
             movePiece(boardId.toString(), "1", selectedSlot.toString(),

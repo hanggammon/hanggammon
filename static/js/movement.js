@@ -106,12 +106,12 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       if (getCurrentPlayerTeam() == 0) {
          if (parseInt(fromSlot) > parseInt(toSlot)) {
             takeBackStr = " > Take back < ";
-	    delta = delta * -1;
+            delta = delta * -1;
          }
       } else {
          if (parseInt(toSlot) > parseInt(fromSlot)) {
             takeBackStr = " > Take back < ";
-	    delta = delta * -1;
+            delta = delta * -1;
          }
       }
    } else if ((parseInt(toSlot) == pieceState.PICKED_UP_0) ||
@@ -120,13 +120,13 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       if (teamId == 0) {
          if ((parseInt(fromSlot) <= pieceState.IN_SLOT_23) &&
              (parseInt(fromSlot) >= pieceState.IN_SLOT_18)) {
-	    delta = 24 - parseInt(fromSlot);
+            delta = 24 - parseInt(fromSlot);
             deltaStr = " [" + delta + "] ";
          }
       } else {
          if ((parseInt(fromSlot) <= pieceState.IN_SLOT_5) &&
              (parseInt(fromSlot) >= pieceState.IN_SLOT_0)) {
-	    delta = parseInt(fromSlot) + 1;
+            delta = parseInt(fromSlot) + 1;
             deltaStr = " [" + delta + "] ";
          }
       }
@@ -136,13 +136,13 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       if (teamId == 0) {
          if ((parseInt(toSlot) <= pieceState.IN_SLOT_5) &&
              (parseInt(toSlot) >= pieceState.IN_SLOT_0)) {
-	    delta = parseInt(toSlot) + 1;
+            delta = parseInt(toSlot) + 1;
             deltaStr = " [" + delta + "] ";
          }
       } else {
          if ((parseInt(toSlot) <= pieceState.IN_SLOT_23) &&
             (parseInt(toSlot) >= pieceState.IN_SLOT_18)) {
-	    delta = 24 - parseInt(toSlot);
+            delta = 24 - parseInt(toSlot);
             deltaStr = " [" + delta + "] ";
          }
       }
