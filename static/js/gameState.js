@@ -272,12 +272,12 @@ function gameStateToString()
       }
    }
 
-   for (var i = 0; i < numDice; i++) {
+   for (i = 0; i < numDice; i++) {
       returnStr += getDiceValueKey(i) + ' = "' +
                    gameState[getDiceValueKey(i)] + '"\n';
    }
 
-   for (var i = 0; i < numDice; i++) {
+   for (i = 0; i < numDice; i++) {
       returnStr += getTeamScoreKey(i) + ' = "' +
                    gameState[getTeamScoreKey(i)] + '"\n';
    }

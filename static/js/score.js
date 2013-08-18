@@ -3,7 +3,7 @@ function updateScore(teamId, increment)
 {
    var scoreKey = getTeamScoreKey(teamId);
 
-   var newScore = parseInt(gameState[scoreKey]) + increment;
+   var newScore = parseInt(gameState[scoreKey], 10) + increment;
 
    // Don't drop below 0
    if (newScore < 0) {
