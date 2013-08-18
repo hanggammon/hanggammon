@@ -58,6 +58,7 @@ table {
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.4" ></script>
 <script src="https://hanggammon.appspot.com/js/debuglog.js"></script>
 <script src="https://hanggammon.appspot.com/js/hangoutData.js"></script>
+<script src="https://hanggammon.appspot.com/js/messagebox.js"></script>
 <script src="https://hanggammon.appspot.com/js/gameState.js"></script>
 <script src="https://hanggammon.appspot.com/js/player.js"></script>
 <script src="https://hanggammon.appspot.com/js/history.js"></script>
@@ -72,9 +73,17 @@ table {
 <input class="button" type="button" value="Reset Game" id="resetGameButton" onClick="resetGameState()" style="display:inline"/>
 <input class="button" type="button" value="Flip boards" id="flipBoardButton" onClick="flipBoardClicked()" style="display:inline"/>
 
+<!-- Remove the comment to run the message tests
+<input class="button" type="button" value="Run Message Test" id="messageTestButton" onClick="mbTest()" style="display:inline"/>
+<input class="button" type="button" value="Init message system" id="messageInit" onClick="mbInit()" style="display:inline"/>
+-->
+
 <div id="stateDiv"></div>
 <div id="queueDiv"></div>
 <div id="started"></div>
+<!-- Remove the comment to include debug logs
+<div class="scroll" id="debugLogDiv"></div>
+-->
 
 <div id="horizontalSeparator" style="width:100%; height:1px; background-color:black; margin-top:10px; margin-bottom:10px;"></div>
 
@@ -163,7 +172,6 @@ function init() {
             updateDisplayState();
 
             gapi.hangout.data.onStateChanged.add(onStateChange);
-            gapi.hangout.data.onMessageReceived.add(onMessageReceived);
          }
       }
    );
