@@ -1,3 +1,19 @@
+function moveDelta(str)
+{
+   var delta = parseInt(str, 10);
+
+   totalMovesLeft = totalMovesLeft - delta;
+   updateDisplayState();
+}
+
+
+function setTotalMovesLeft(str)
+{
+   totalMovesLeft = parseInt(str, 10);
+   updateDisplayState();
+}
+
+
 function movePiece(boardId, teamId, fromSlot, toSlot)
 {
    var pieceToMove= '';
@@ -149,11 +165,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       }
    }
 
-   totalMovesLeft = totalMovesLeft - delta;
-   if (totalMovesLeft === 0) {
-      updateDisplayState();
-   }
-   gapi.hangout.data.sendMessage(constructMoveDeltaMessage(delta));
+   mbBroadcastRPC('moveDelta("' + delta.toString() + '");', true);
 
    // show hits in history
    var hitStr;

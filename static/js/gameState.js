@@ -129,16 +129,6 @@ function clearPlayers()
    }
 }
 
-function getMoveDeltaKey()
-{
-   return 'moveDelta';
-}
-
-function constructMoveDeltaMessage(delta)
-{
-   return getMoveDeltaKey() + ':' + delta.toString();
-}
-
 function getTotalMoveKey()
 {
    return 'totalMoveLeft';
@@ -241,6 +231,7 @@ function resetGameState()
 function initGameState()
 {
    var started = getStarted();
+   mbInit();
    if (started != "started") {
       setStarted();
       resetGameState();

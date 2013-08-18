@@ -37,7 +37,6 @@ function rollDice() {
 
    // send state update to the server
    commitQueuedStateUpdates();
-   
-   totalMovesLeft = totalMove;
-   gapi.hangout.data.sendMessage(constructTotalMoveMessage(totalMove));
+  
+   mbBroadcastRPC('setTotalMovesLeft("' + totalMove.toString() + '")', true);
 }
