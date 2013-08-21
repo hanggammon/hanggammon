@@ -35,19 +35,20 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
 
    // Only let team X pieces to move to HIT_X and PICKED_UP_X
    if (toSlot == pieceState.HIT_0 || toSlot == pieceState.PICKED_UP_0) {
-      if (teamId == 1) {
+      if (teamId == '1') {
+         LogMB("moveDelta:L39");
          return;
       }
    }
    if (toSlot == pieceState.HIT_1 || toSlot == pieceState.PICKED_UP_1) {
       if (teamId == '0') {
+         LogMB("moveDelta:L45");
          return;
       }
    }
 
    // Queue update the move the piece to its new location
-   queueStateUpdate(getPieceKeyOnBoard(boardId, teamId, parseInt(piece, 10)),
-                    toSlot);
+   queueStateUpdate(getPieceKeyOnBoard(boardId, teamId, pieceToMove), toSlot);
 
    /*
     * Auto hit detection. Count the number of opposing pieces in toSlot
@@ -74,11 +75,11 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       // Hit the piece
       if (opposingTeam === 0) {
          queueStateUpdate(getPieceKeyOnBoard(boardId, opposingTeam,
-                                             parseInt(pieceToHit, 10)),
+                                             pieceToHit),
                           pieceState.HIT_0.toString());
       } else {
          queueStateUpdate(getPieceKeyOnBoard(boardId, opposingTeam,
-                                             parseInt(pieceToHit, 10)),
+                                             pieceToHit),
                           pieceState.HIT_1.toString());
       }
    }
