@@ -1,7 +1,7 @@
 // adds extra logging into the state/queueDiv
-var verbose = 0;
+var verbose = 1;
 // debug logs for the message box
-var verboseMB = 0;
+var verboseMB = 1;
 var verboseMovePiece = 0;
 
 function AppendToElement(element, str)
