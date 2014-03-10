@@ -13,20 +13,7 @@ function histdiv_add(boardId, teamId, msg)
    histDiv.innerHTML = newContent;
 }
 
-function onHistoryUpdate(updateStr)
-{
-   // Split updateStr into lines
-   var lines = updateStr.split("\n");
-   for (var i = 0; i < lines.length - 1; i++) {
-      var line = lines[i];
-      var board = line.substring(0, 1);
-      var team = line.substring(1, 2);
-      var message = line.substring(2);
-      histdiv_add(board, team, message);
-   }
-}
-
-function history_buffer(boardId, teamId, msg)
+function history_buffer(boardId, rollerId, msg)
 {
    // first part of history is the timestamp
    var currentdate = new Date();
@@ -50,16 +37,10 @@ function history_buffer(boardId, teamId, msg)
    var hist = "[" + datetime + "]";
 
    // append user name
-   hist += " " + gapi.hangout.getLocalParticipant().person.displayName;
+   hist += " " + gapi.hangout.getParticipantById(rollerId).person.displayName;
 
    // finally the actual message
    hist += " " + msg + "<br>\n";
 
-   bufferedHistoryUpdates += (boardId + teamId + hist);
-}
-
-function history_queue()
-{
-   queueStateUpdate(getHistoryUpdateKey(), bufferedHistoryUpdates);
-   bufferedHistoryUpdates = "";
+   histdiv_add(boardId, getPlayerTeam(rollerId), hist);
 }

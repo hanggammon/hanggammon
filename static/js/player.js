@@ -1,6 +1,6 @@
 function board0TakeTopSeat()
 {
-   var curPlayer = gapi.hangout.getLocalParticipant().person.displayName;
+   var curPlayer = gapi.hangout.getLocalParticipantId();
 
    if (!boardFlipped) {
       queueStateUpdate(getPlayerNameKey(1, 0), curPlayer);
@@ -13,7 +13,7 @@ function board0TakeTopSeat()
 
 function board0TakeBottomSeat()
 {
-   var curPlayer = gapi.hangout.getLocalParticipant().person.displayName;
+   var curPlayer = gapi.hangout.getLocalParticipantId();
 
    if (!boardFlipped) {
       queueStateUpdate(getPlayerNameKey(0, 0), curPlayer);
@@ -26,7 +26,7 @@ function board0TakeBottomSeat()
 
 function board1TakeTopSeat()
 {
-   var curPlayer = gapi.hangout.getLocalParticipant().person.displayName;
+   var curPlayer = gapi.hangout.getLocalParticipantId();
 
    if (!boardFlipped) {
       queueStateUpdate(getPlayerNameKey(1, 1), curPlayer);
@@ -39,7 +39,7 @@ function board1TakeTopSeat()
 
 function board1TakeBottomSeat()
 {
-   var curPlayer = gapi.hangout.getLocalParticipant().person.displayName;
+   var curPlayer = gapi.hangout.getLocalParticipantId();
 
    if (!boardFlipped) {
       queueStateUpdate(getPlayerNameKey(0, 1), curPlayer);
@@ -50,20 +50,22 @@ function board1TakeBottomSeat()
    commitQueuedStateUpdates();
 }
 
-function getCurrentPlayerTeam()
-{
-   var curPlayer = gapi.hangout.getLocalParticipant().person.displayName;
-
+function getPlayerTeam(playerId) {
    for (var curBoard = 0; curBoard < numBoards; curBoard++) {
       for (var curTeam = 0; curTeam < numTeams; curTeam++) {
-         if (curPlayer === gameState[getPlayerNameKey(curTeam, curBoard)]) {
-             return curTeam;
+         if (playerId.toString() === gameState[getPlayerNameKey(curTeam, curBoard)]) {
+            return curTeam;
          }
       }
    }
 
    // No team
    return 2;
+}
+
+function getCurrentPlayerTeam()
+{
+   return getPlayerTeam(gapi.hangout.getLocalParticipantId());
 }
 
 function getTeamColor(teamId)
@@ -82,6 +84,14 @@ function wrapTextWithTeamColors(teamId, msg)
    return '<font color=' + getTeamColor(teamId) + '>' + msg + '</font>';
 }
 
+function getNameOrEmpty(localID) {
+   participant = gapi.hangout.getParticipantById(localID);
+   if (participant) {
+      return participant.person.displayName;
+   }
+   return "Empty";
+}
+
 function playerStateToDisplay()
 {
    var board0TopDiv = document.getElementById('board0TopSeatName');
@@ -94,17 +104,25 @@ function playerStateToDisplay()
    var team0Player2 = gameState[getPlayerNameKey(1, 1)];
    var team1Player2 = gameState[getPlayerNameKey(0, 1)];
 
-   if (team0Player1 === undefined || team0Player1 == "undefined") {
+   if (team0Player1 === undefined || team0Player1 === "undefined") {
       team0Player1 = "Empty";
+   } else if (team0Player1 !== "Empty") {
+      team0Player1 = getNameOrEmpty(team0Player1);
    }
-   if (team1Player1 === undefined || team1Player1 == "undefined") {
+   if (team1Player1 === undefined || team1Player1 === "undefined") {
       team1Player1 = "Empty";
+   } else if (team1Player1 !== "Empty")  {
+      team1Player1 = getNameOrEmpty(team1Player1);
    }
-   if (team0Player2 === undefined || team0Player2 == "undefined") {
+   if (team0Player2 === undefined || team0Player2 === "undefined") {
       team0Player2 = "Empty";
+   } else if (team0Player2 !== "Empty")  {
+      team0Player2 = getNameOrEmpty(team0Player2);
    }
-   if (team1Player2 === undefined || team1Player2 == "undefined") {
+   if (team1Player2 === undefined || team1Player2 === "undefined") {
       team1Player2 = "Empty";
+   } else  if (team1Player2 !== "Empty") {
+      team1Player2 = getNameOrEmpty(team1Player2);
    }
 
    if (!boardFlipped) {

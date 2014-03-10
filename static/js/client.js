@@ -41,8 +41,8 @@ client.broadcast = function (payload) {
    this.socket.emit('broadcast', payload);
 }
 
-client.rollDice = function (team) {
-   this.socket.emit('rollDice', { 'team': team });
+client.rollDice = function (roller) {
+   this.socket.emit('rollDice', { 'roller': roller });
 }
 
 /* Simple Remote Interface Invocation */

@@ -7,11 +7,17 @@ function flipBoardClicked()
    flipBoard();
    updateDisplayState();
 }
-function rollDiceEnable()
+function rollDiceEnableClick()
 {
+   rmi.SendBroadcast('RollDiceEnable');
+}
+
+function rollDiceEnable() {
    totalMovesLeft = 0;
+   document.getElementById('enableRollButton').disabled = false;
    document.getElementById('rollDiceButton').disabled = false;
 }
+rmi.Register('RollDiceEnable', rollDiceEnable)
 
 // Sync state update coming from the server
 function onStateChange(changeEvent)
@@ -26,18 +32,7 @@ function onStateChange(changeEvent)
    for (var key in changeEvent.metadata) {
       if ((!(key in stateMetaData) ||
            changeEvent.metadata[key].timestamp != stateMetaData[key].timestamp)) {
-         if (key == getDiceValueKey(0)) {
-            // Disable the roll dice button if there was a dice roll
-            document.getElementById('rollDiceButton').disabled = true;
-         }
-         if (key == getHistoryUpdateKey()) {
-            // only update if we haven't seen this exact update
-            if (changeEvent.state[key] != gameState[key]) {
-               onHistoryUpdate(changeEvent.state[key]);
-            }
-         } else {
-            needRedraw = true;
-         }
+         needRedraw = true;
 
          gameState[key] = changeEvent.state[key];
       }

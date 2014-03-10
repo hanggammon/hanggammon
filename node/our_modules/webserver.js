@@ -49,7 +49,7 @@ socket.on('connection', function (client) {
    client.on('rollDice', function (data) {
       var MAX_DICE_VALUE = 6;
       var args = [];
-      args[0] = data.team;
+      args[0] = data.roller;
       args[1] = Math.floor(Math.random() * MAX_DICE_VALUE) + 1;
       args[2] = Math.floor(Math.random() * MAX_DICE_VALUE) + 1;
 

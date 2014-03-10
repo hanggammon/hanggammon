@@ -119,7 +119,7 @@ table {
                <img id="dice2" src="https://hanggammon.appspot.com/img/die2.png">
              </div>
              <form name="resetButtonForm">
-               <input class="button" type="button" value="Finish Move" id="enableRollButton" onClick="rollDiceEnable()"/>
+               <input class="button" type="button" value="Finish Move" id="enableRollButton" onClick="rollDiceEnableClick()"/>
              </form>
              <div id="movesLeft" style="margin:10px; font-size:200%; font-weight:bold; display:inline">0</div>
           </td>
