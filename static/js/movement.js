@@ -1,4 +1,4 @@
-function moveDelta(str)
+function moveDelta(delta)
 {
    totalMovesLeft = totalMovesLeft - delta;
    updateDisplayState();
@@ -11,7 +11,6 @@ function setTotalMovesLeft(movesLeft)
    totalMovesLeft = movesLeft;
    updateDisplayState();
 }
-rmi.Register('SetTotalMovesLeft', setTotalMovesLeft);
 
 
 function movePiece(boardId, teamId, fromSlot, toSlot)

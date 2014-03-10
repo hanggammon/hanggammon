@@ -3,7 +3,7 @@ var verbose = 0;
 // debug logs for the message box
 var verboseMB = 0;
 var verboseMovePiece = 0;
-var debugLog = 1;
+var debugLog = 0;
 
 function AppendToElement(element, str)
 {
@@ -61,7 +61,9 @@ function LogMBClear(str)
 
 function LogDebug(str)
 {
-   AppendToElement('debugLogDiv', str + '<br>');
+   if (debugLog > 0) {
+      AppendToElement('debugLogDiv', str + '<br>');
+   }
 }
 
 function LogMovePiece(str)

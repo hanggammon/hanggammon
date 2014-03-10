@@ -12,9 +12,9 @@ util.puts("Serving:" + wwwPath);
 app.use(express.static(wwwPath));
 
 var options = {
-    host: cfg.ipAddress,
-    key: fs.readFileSync(cfg.keyPath + '/server.key'),
-    cert: fs.readFileSync(cfg.keyPath + '/server.crt')
+   host: cfg.ipAddress,
+   key: fs.readFileSync(cfg.keyPath + '/server.key'),
+   cert: fs.readFileSync(cfg.keyPath + '/server.crt')
 };
 
 var server = https.createServer(options, app).listen(cfg.port);
@@ -22,35 +22,49 @@ var server = https.createServer(options, app).listen(cfg.port);
 var io = require('socket.io');
 
 var socket = io.listen(server);
-socket.configure(function() {
-    socket.set('log level', 1);
+socket.configure(function () {
+   socket.set('log level', 1);
 })
 
 var clients = {};
 
-socket.on('connection', function(client){
-    var ident;
+socket.on('connection', function (client) {
+   var ident;
 
-    client.on('init', function(data){
-        util.puts("Identified as " + data.ident);
-        ident = data.ident;
-        clients[ident] = client;
-    });
+   client.on('init', function (data) {
+      util.puts("Identified as " + data.ident);
+      ident = data.ident;
+      clients[ident] = client;
+   });
 
-    client.on('broadcast', function(data) {
-        for (c in clients) {
-            if (clients.hasOwnProperty(c) && c !== ident) {
-                util.puts("Forwarding broadcast message to " + ident);
-                clients[c].emit('broadcast', data);
-            }
-        }
-    });
+   client.on('broadcast', function (data) {
+      for (c in clients) {
+         if (clients.hasOwnProperty(c) && c !== ident) {
+            util.puts("Forwarding broadcast message to " + ident);
+            clients[c].emit('broadcast', data);
+         }
+      }
+   });
 
-    client.on('disconnect', function() {
-        if (clients.hasOwnProperty(ident)) {
-            if (clients[ident] == client) {
-                delete clients[ident];
-            }
-        }
-    });
+   client.on('rollDice', function (data) {
+      var MAX_DICE_VALUE = 6;
+      var args = [];
+      args[0] = data.team;
+      args[1] = Math.floor(Math.random() * MAX_DICE_VALUE) + 1;
+      args[2] = Math.floor(Math.random() * MAX_DICE_VALUE) + 1;
+
+      for (c in clients) {
+         if (clients.hasOwnProperty(c)) {
+            clients[c].emit('diceRolled', { "args": args });
+         }
+      }
+   });
+
+   client.on('disconnect', function () {
+      if (clients.hasOwnProperty(ident)) {
+         if (clients[ident] == client) {
+            delete clients[ident];
+         }
+      }
+   });
 })

@@ -1,11 +1,10 @@
 function rollDice() {
-   var MAX_DICE_VALUE = 6;
+   client.rollDice(getCurrentPlayerTeam().toString());
+}
 
-   // The following code will give us a value between 0 and MAX_DICE_VALUE (non-inclusive)
-   // Need to add one for 1 through MAX_DICE_VALUE (inclusive)
-   var diceOne = Math.floor(Math.random() * MAX_DICE_VALUE) + 1;
-   var diceTwo = Math.floor(Math.random() * MAX_DICE_VALUE) + 1;
-   
+function diceRolled(team, diceOne, diceTwo) {
+
+   LogDebug("Got " + team + " " + diceOne + " " + diceTwo);
    var totalMove = diceOne + diceTwo;
    if (diceOne == diceTwo) {
       totalMove = diceOne * 4;
@@ -26,7 +25,7 @@ function rollDice() {
    queueStateUpdate(diceTwoKey, diceTwo.toString());
 
    // Queue update to dice owning team
-   queueStateUpdate(getDiceTeamKey(), getCurrentPlayerTeam().toString());
+   queueStateUpdate(getDiceTeamKey(), team);
 
    // add to both boards' history
    history_buffer("0", getCurrentPlayerTeam(), "rolled " + diceOne.toString() +
@@ -38,6 +37,6 @@ function rollDice() {
    // send state update to the server
    commitQueuedStateUpdates();
 
-   LogDebug("Setting total moves left to " + totalMove);
-   rmi.SendBroadcast('SetTotalMovesLeft', totalMove);
+   setTotalMovesLeft(totalMove);
 }
+rmi.Register('DiceRolled', diceRolled);

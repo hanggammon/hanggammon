@@ -31,12 +31,19 @@ client.init = function () {
          LogDebug("Unknown message type " + payload.type);
       }
    });
+
+   this.socket.on('diceRolled', function (msg) {
+      rmi.op['DiceRolled'].apply(rmi.op['DiceRolled'], msg.args);
+   });
 }
 
 client.broadcast = function (payload) {
    this.socket.emit('broadcast', payload);
 }
 
+client.rollDice = function (team) {
+   this.socket.emit('rollDice', { 'team': team });
+}
 
 /* Simple Remote Interface Invocation */
 var rmi = {};
