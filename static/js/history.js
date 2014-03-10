@@ -12,8 +12,9 @@ function histdiv_add(boardId, teamId, msg)
 
    histDiv.innerHTML = newContent;
 }
+rmi.Register('HistoryAppend', histdiv_add);
 
-function history_buffer(boardId, rollerId, msg)
+function history_buffer(boardId, rollerId, msg, remote)
 {
    // first part of history is the timestamp
    var currentdate = new Date();
@@ -42,5 +43,10 @@ function history_buffer(boardId, rollerId, msg)
    // finally the actual message
    hist += " " + msg + "<br>\n";
 
-   histdiv_add(boardId, getPlayerTeam(rollerId), hist);
+   if (!remote) {
+      histdiv_add(boardId, getPlayerTeam(rollerId), hist);
+   } else {
+      rmi.SendBroadcast('HistoryAppend', boardId, getPlayerTeam(rollerId), hist);
+   }
+
 }

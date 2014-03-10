@@ -20,13 +20,15 @@ function diceRolled(roller, diceOne, diceTwo) {
    document.getElementById('rollDiceButton').disabled = true;
    if (getCurrentPlayerTeam() !== team) {
       document.getElementById('enableRollButton').disabled = true;
+   } else {
+      document.getElementById('enableRollButton').disabled = false;
    }
 
    // add to both boards' history
    history_buffer("0", roller, "rolled " + diceOne.toString() +
-                  " " + diceTwo.toString());
+                  " " + diceTwo.toString(), false);
    history_buffer("1", roller, "rolled " + diceOne.toString() +
-                  " " + diceTwo.toString());
+                  " " + diceTwo.toString(), false);
 
    if (roller === gapi.hangout.getLocalParticipantId()) {
       // send state update to the server

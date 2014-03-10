@@ -3,7 +3,7 @@ var verbose = 0;
 // debug logs for the message box
 var verboseMB = 0;
 var verboseMovePiece = 0;
-var debugLog = 0;
+var debugLog = 1;
 
 function AppendToElement(element, str)
 {

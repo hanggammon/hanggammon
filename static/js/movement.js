@@ -175,10 +175,9 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       hitStr = "";
    }
 
-   history_buffer(boardId, getCurrentPlayerTeam(), " from " +
+   history_buffer(boardId, gapi.hangout.getLocalParticipantId(), " from " +
                   slotToString(fromSlot) + " to " + slotToString(toSlot) +
-                  hitStr + deltaStr + takeBackStr);
-   history_queue();
+                  hitStr + deltaStr + takeBackStr, true);
 
    // send state update to the server
    commitQueuedStateUpdates();
