@@ -56,34 +56,29 @@ table {
 <body>
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.4" ></script>
-<script src="https://hanggammon.appspot.com/js/debuglog.js"></script>
-<script src="https://hanggammon.appspot.com/js/hangoutData.js"></script>
-<script src="https://hanggammon.appspot.com/js/messagebox.js"></script>
-<script src="https://hanggammon.appspot.com/js/gameState.js"></script>
-<script src="https://hanggammon.appspot.com/js/player.js"></script>
-<script src="https://hanggammon.appspot.com/js/history.js"></script>
-<script src="https://hanggammon.appspot.com/js/movement.js"></script>
-<script src="https://hanggammon.appspot.com/js/dice.js"></script>
-<script src="https://hanggammon.appspot.com/js/graphicalBoard.js"></script>
-<script src="https://hanggammon.appspot.com/js/score.js"></script>
-<script src="https://hanggammon.appspot.com/js/main.js"></script>
+
+<script src="https://67.169.101.121:8000/js/debuglog.js"></script>
+<script src="https://67.169.101.121:8000/js/socket.io.js"></script>
+<script src="https://67.169.101.121:8000/js/client.js"></script>
+<script src="https://67.169.101.121:8000/js/hangoutData.js"></script>
+<script src="https://67.169.101.121:8000/js/gameState.js"></script>
+<script src="https://67.169.101.121:8000/js/player.js"></script>
+<script src="https://67.169.101.121:8000/js/history.js"></script>
+<script src="https://67.169.101.121:8000/js/movement.js"></script>
+<script src="https://67.169.101.121:8000/js/dice.js"></script>
+<script src="https://67.169.101.121:8000/js/graphicalBoard.js"></script>
+<script src="https://67.169.101.121:8000/js/score.js"></script>
+<script src="https://67.169.101.121:8000/js/main.js"></script>
 
 <span id="title" style="font-size:36px; font-weight:bold; margin:10px;">HangGammon</span>
 
 <input class="button" type="button" value="Reset Game" id="resetGameButton" onClick="resetGameState()" style="display:inline"/>
 <input class="button" type="button" value="Flip boards" id="flipBoardButton" onClick="flipBoardClicked()" style="display:inline"/>
 
-<!-- Remove the comment to run the message tests
-<input class="button" type="button" value="Run Message Test" id="messageTestButton" onClick="mbTest()" style="display:inline"/>
-<input class="button" type="button" value="Init message system" id="messageInit" onClick="mbInit()" style="display:inline"/>
--->
-
 <div id="stateDiv"></div>
 <div id="queueDiv"></div>
 <div id="started"></div>
-<!-- Remove the comment to include debug logs
 <div class="scroll" id="debugLogDiv"></div>
--->
 
 <div id="horizontalSeparator" style="width:100%; height:1px; background-color:black; margin-top:10px; margin-bottom:10px;"></div>
 
@@ -117,8 +112,8 @@ table {
                <input class="button" type="button" value="Roll 'em" id="rollDiceButton" onClick="rollDiceTest()"/>
              </form>
              <div id="diceValues">
-               <img id="dice1" src="//hanggammon.appspot.com/img/die1.png">
-               <img id="dice2" src="//hanggammon.appspot.com/img/die2.png">
+               <img id="dice1" src="https://hanggammon.appspot.com/img/die1.png">
+               <img id="dice2" src="https://hanggammon.appspot.com/img/die2.png">
              </div>
              <form name="resetButtonForm">
                <input class="button" type="button" value="Enable Roll Button" id="enableRollButton" onClick="rollDiceEnable()"/>
@@ -161,6 +156,7 @@ table {
   </tr>
 </table>
 
+
 <script>
 
 function init() {
@@ -168,6 +164,7 @@ function init() {
    gapi.hangout.onApiReady.add(
       function(eventObj) {
          if (eventObj.isApiReady) {
+            client.init();
             initGameState();
             updateDisplayState();
 
