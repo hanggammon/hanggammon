@@ -78,7 +78,10 @@ table {
 <div id="stateDiv"></div>
 <div id="queueDiv"></div>
 <div id="started"></div>
+
+<!--
 <div class="scroll" id="debugLogDiv"></div>
+-->
 
 <div id="horizontalSeparator" style="width:100%; height:1px; background-color:black; margin-top:10px; margin-bottom:10px;"></div>
 
@@ -116,7 +119,7 @@ table {
                <img id="dice2" src="https://hanggammon.appspot.com/img/die2.png">
              </div>
              <form name="resetButtonForm">
-               <input class="button" type="button" value="Enable Roll Button" id="enableRollButton" onClick="rollDiceEnable()"/>
+               <input class="button" type="button" value="Finish Move" id="enableRollButton" onClick="rollDiceEnable()"/>
              </form>
              <div id="movesLeft" style="margin:10px; font-size:200%; font-weight:bold; display:inline">0</div>
           </td>

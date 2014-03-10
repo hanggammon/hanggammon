@@ -220,7 +220,6 @@ function resetGameState()
    }
 
    initDiceState();
-   initTeamScores();
    pushAllGameState();
    var histDiv0 = document.getElementById('historyDiv0');
    var histDiv1 = document.getElementById('historyDiv1');
@@ -233,6 +232,7 @@ function initGameState()
    var started = getStarted();
    if (started != "started") {
       setStarted();
+      initTeamScores();
       resetGameState();
       stateMetaData = gapi.hangout.data.getStateMetadata();
    } else {

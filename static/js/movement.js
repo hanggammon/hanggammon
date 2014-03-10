@@ -119,7 +119,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
          deltaStr = " [" + delta + "] ";
       }
 
-      // Determine if the move is a takeback
+      // Determine if the move is a take back
       if (getCurrentPlayerTeam() === 0) {
          if (parseInt(fromSlot, 10) > parseInt(toSlot, 10)) {
             takeBackStr = " > Take back < ";
