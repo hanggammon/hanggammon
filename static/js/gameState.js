@@ -231,7 +231,6 @@ function resetGameState()
 function initGameState()
 {
    var started = getStarted();
-   mbInit();
    if (started != "started") {
       setStarted();
       resetGameState();

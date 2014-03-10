@@ -37,6 +37,7 @@ function rollDice() {
 
    // send state update to the server
    commitQueuedStateUpdates();
-  
-   mbBroadcastRPC('setTotalMovesLeft("' + totalMove.toString() + '")', true);
+
+   LogDebug("Setting total moves left to " + totalMove);
+   rmi.SendBroadcast('SetTotalMovesLeft', totalMove);
 }

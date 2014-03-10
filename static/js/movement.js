@@ -1,17 +1,17 @@
 function moveDelta(str)
 {
-   var delta = parseInt(str, 10);
-
    totalMovesLeft = totalMovesLeft - delta;
    updateDisplayState();
 }
+rmi.Register('MoveDelta', moveDelta);
 
 
-function setTotalMovesLeft(str)
+function setTotalMovesLeft(movesLeft)
 {
-   totalMovesLeft = parseInt(str, 10);
+   totalMovesLeft = movesLeft;
    updateDisplayState();
 }
+rmi.Register('SetTotalMovesLeft', setTotalMovesLeft);
 
 
 function movePiece(boardId, teamId, fromSlot, toSlot)
@@ -166,7 +166,7 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
       }
    }
 
-   mbBroadcastRPC('moveDelta("' + delta.toString() + '");', true);
+   rmi.SendBroadcast('MoveDelta', delta);
 
    // show hits in history
    var hitStr;

@@ -24,15 +24,8 @@ function onStateChange(changeEvent)
    // timestamps we stored in stateMetaData find the entries we need to
    // update.
    for (var key in changeEvent.metadata) {
-      LogState(key + ' (' + changeEvent.metadata[key].timestamp + ')');
-      if (key in stateMetaData) {
-         LogState('(' + stateMetaData[key].timestamp + ')');
-      }
-      LogState(',');
-      if (mbProcessKey(key, changeEvent.state[key]) &&
-          (!(key in stateMetaData) ||
+      if ((!(key in stateMetaData) ||
            changeEvent.metadata[key].timestamp != stateMetaData[key].timestamp)) {
-         LogState('overwriting,');
          if (key == getDiceValueKey(0)) {
             // Disable the roll dice button if there was a dice roll
             document.getElementById('rollDiceButton').disabled = true;
@@ -50,7 +43,6 @@ function onStateChange(changeEvent)
       }
    }
    stateMetaData = changeEvent.metadata;
-   LogState('Change End<br');
 
    if (needRedraw) {
       updateDisplayState();
