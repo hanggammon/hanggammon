@@ -3,6 +3,7 @@ function rollDice() {
 }
 
 function diceRolled(roller, diceOne, diceTwo) {
+   document.getElementById('maindiv').focus();
 
    LogDebug("Got " + roller + " " + diceOne + " " + diceTwo);
    var totalMove = diceOne + diceTwo;

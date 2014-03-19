@@ -55,6 +55,8 @@ table {
 </style>
 <body>
 
+<div id="maindiv" tabindex="0" onkeypress=keypress(event)>
+
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.4" ></script>
 
 <script src="https://67.169.101.121:8000/js/debuglog.js"></script>
@@ -182,6 +184,7 @@ function init() {
 // Wait for gadget to load.
 gadgets.util.registerOnLoadHandler(init);
 </script>
+</div>
 </body>
 </html>
 ]]>
