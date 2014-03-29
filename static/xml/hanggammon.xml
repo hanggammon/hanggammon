@@ -52,6 +52,11 @@ table {
   overflow: scroll;
   text-align: left;
 }
+
+.statsdiv {
+  width: 200px;
+  height: 100%;
+}
 </style>
 <body>
 
@@ -86,18 +91,56 @@ table {
 
 <table style="width:100%">
   <tr style="width:100%">
-    <td style="vertical-align:middle; text-align:center;">
-      <form name="board0top" style="margin:10px">
-        <input class="button" type="button" value="Take Seat" id="board0TopSeatButton"
-         onclick="board0TakeTopSeat()" style="display:inline"/>
-      </form>
-      <div id="board0TopSeatName" style="margin:10px">Board0TopSeat</div>
-      <canvas id="board0" style="border-width:1px; border-color:purple; border-style:solid;"></canvas>
-      <div id="board0BottomSeatName" style="margin: 10px">Board0BottomSeat</div>
-      <form name="board0bottom" style="margin:10px">
-        <input class="button" type="button" value="Take Seat" id="board0BottomSeatButton"
-         onclick="board0TakeBottomSeat()"/>
-      </form>
+    <td>
+      <table style="height:500px; vertical-alignment:top">
+        <tr>
+        <td style="vertical-align:middle; text-align:center; width:100%">
+          <form name="board0top" style="margin:10px">
+            <input class="button" type="button" value="Take Seat" id="board0TopSeatButton"
+             onclick="board0TakeTopSeat()" style="display:inline"/>
+          </form>
+          <div id="board0TopSeatName" style="margin:10px">Board0TopSeat</div>
+        </td>
+        <td></td>
+        </tr>
+        <tr>
+        <td style="vertical-align:middle; text-align:center; width:100%">
+          <canvas id="board0" style="border-width:1px; border-color:purple; border-style:solid;"></canvas>
+        </td>
+        <td>
+          <div class="statsdiv">
+          <table style="height:100%; width:100%">
+            <tr><td style="height:50%">
+              <table style="height:100%;">
+                <tr><td colspan="2"><div id="topStats0Player">Stats</div></td></tr>
+                <tr><td><b>Hit</b></td><td><div id="topBoard0Hit">0%</div></td></tr>
+                <tr><td><b>Getting hit</b></td><td><div id="topBoard0GettingHit">0%</div></td></tr>
+                <tr><td style="height:100%" colspan="2"><td></tr>
+              </table>
+            </td></tr>
+            <tr><td style="height:50%">
+              <table style="height:100%;">
+                <tr><td colspan="2"><div id="bottomStats0Player">Stats</div></td></tr>
+                <tr><td><b>Hit</b></td><td><div id="bottomBoard0Hit">0%</div></td></tr>
+                <tr><td><b>Getting hit</b></td><td><div id="bottomBoard0GettingHit">0%</div></td></tr>
+                <tr><td style="height:100%" colspan="2"><td></tr>
+              </table>
+            </td></tr>
+          </table>
+          </div>
+        </td>
+        </tr>
+        <tr>
+        <td style="vertical-align:middle; text-align:center; width:100%">
+          <div id="board0BottomSeatName" style="margin: 10px">Board0BottomSeat</div>
+          <form name="board0bottom" style="margin:10px">
+            <input class="button" type="button" value="Take Seat" id="board0BottomSeatButton"
+             onclick="board0TakeBottomSeat()"/>
+          </form>
+        </td>
+        <td></td>
+        </tr>
+      </table>
     </td>
     <td style="width:172px; height:100%; vertical-align:middle; text-align:center;">
       <table style="width:100%; height:500px">
@@ -124,7 +167,7 @@ table {
           </td>
         </tr>
         <tr style="height:40%">
-          <td style="vertical-align:middle; text-align:center;">
+          <td style="vertical-align:top; text-align:center;">
              <input class="button" type="button" value="-1" id="bottomTeamDecButton" onClick="bottomTeamScoreDec()" style="display:inline"/>
              <div id="bottomTeamScore" style="margin:10px; font-size:200%; font-weight:bold; display:inline">0</div>
              <input class="button" type="button" value="+1" id="bottomTeamIncButton" onClick="bottomTeamScoreInc()" style="display:inline"/>
@@ -132,26 +175,63 @@ table {
         </tr>
       </table>
     </td>
-    <td style="vertical-align:middle; text-align:center;">
-      <form name="board1top" style="margin:10px">
-        <input class="button" type="button" value="Take Seat" id="board1TopSeatButton"
-         onclick="board1TakeTopSeat()" style="display:inline"/>
-      </form>
-      <div id="board1TopSeatName" style="margin:10px">Board1TopSeat</div>
-      <canvas id="board1" style="border-width:1px; border-color:purple; border-style:solid;"></canvas>
-      <div id="board1BottomSeatName" style="margin: 10px">Board1BottomSeat</div>
-      <form name="board1bottom" style="margin:10px">
-        <input class="button" type="button" value="Take Seat" id="board1BottomSeatButton"
-         onclick="board1TakeBottomSeat()"/>
-      </form>
+    <td>
+      <table style="height:500px; vertical-alignment:top">
+        <tr>
+        <td></td>
+        <td style="vertical-align:middle; text-align:center; width:100%">
+          <form name="board1top" style="margin:10px">
+            <input class="button" type="button" value="Take Seat" id="board1TopSeatButton"
+             onclick="board1TakeTopSeat()" style="display:inline"/>
+          </form>
+          <div id="board1TopSeatName" style="margin:10px">Board1TopSeat</div>
+        </td>
+        </tr>
+        <tr>
+        <td>
+          <div class="statsdiv">
+          <table style="height:100%; width:100%">
+            <tr><td style="height:50%">
+              <table style="height:100%;">
+                <tr><td colspan="2"><div id="topStats1Player">Stats</div></td></tr>
+                <tr><td><b>Hit</b></td><td><div id="topStats1Hit">0%</div></td></tr>
+                <tr><td><b>Getting hit</b></td><td><div id="topStats1GettingHit">0%</div></td></tr>
+                <tr><td style="height:100%" colspan="2"><td></tr>
+              </table>
+            </td></tr>
+            <tr><td style="height:50%">
+              <table style="height:100%;">
+                <tr><td colspan="2"><div id="bottomStats1Player">Stats</div></td></tr>
+                <tr><td><b>Hit</b></td><td><div id="bottomStats1Hit">0%</div></td></tr>
+                <tr><td><b>Getting hit</b></td><td><div id="bottomStats1GettingHit">0%</div></td></tr>
+                <tr><td style="height:100%" colspan="2"><td></tr>
+              </table>
+            </td></tr>
+          </table>
+          </div>
+        </td>
+        <td style="vertical-align:middle; text-align:center; width:100%">
+          <canvas id="board1" style="border-width:1px; border-color:purple; border-style:solid;"></canvas>
+        </td>
+        </tr>
+        <tr>
+        <td></td>
+        <td style="vertical-align:middle; text-align:center; width:100%">
+          <div id="board1BottomSeatName" style="margin: 10px">Board1BottomSeat</div>
+          <form name="board1bottom" style="margin:10px">
+            <input class="button" type="button" value="Take Seat" id="board1BottomSeatButton"
+             onclick="board1TakeBottomSeat()"/>
+          </form>
+        </td>
+        </tr>
+      </table>
     </td>
   </tr>
   <tr>
     <td>
       <div class="scroll" id="historyDiv0"></div>
     </td>
-    <td>
-    </td>
+    <td></td>
     <td>
       <div class="scroll" id="historyDiv1"></div>
     </td>
