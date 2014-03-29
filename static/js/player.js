@@ -98,6 +98,10 @@ function playerStateToDisplay()
    var board0BottomDiv = document.getElementById('board0BottomSeatName');
    var board1TopDiv = document.getElementById('board1TopSeatName');
    var board1BottomDiv = document.getElementById('board1BottomSeatName');
+   var topStats0Player = document.getElementById('topStats0Player');
+   var bottomStats0Player = document.getElementById('bottomStats0Player');
+   var topStats1Player = document.getElementById('topStats1Player');
+   var bottomStats1Player = document.getElementById('bottomStats1Player');
 
    var team0Player1 = gameState[getPlayerNameKey(1, 0)];
    var team1Player1 = gameState[getPlayerNameKey(0, 0)];
@@ -107,22 +111,22 @@ function playerStateToDisplay()
    if (team0Player1 === undefined || team0Player1 === "undefined") {
       team0Player1 = "Empty";
    } else if (team0Player1 !== "Empty") {
-      team0Player1 = getNameOrEmpty(team0Player1);
+      team0Player1 = getNameOrEmpty(team0Player1).split(" ")[0];
    }
    if (team1Player1 === undefined || team1Player1 === "undefined") {
       team1Player1 = "Empty";
    } else if (team1Player1 !== "Empty")  {
-      team1Player1 = getNameOrEmpty(team1Player1);
+      team1Player1 = getNameOrEmpty(team1Player1).split(" ")[0];
    }
    if (team0Player2 === undefined || team0Player2 === "undefined") {
       team0Player2 = "Empty";
    } else if (team0Player2 !== "Empty")  {
-      team0Player2 = getNameOrEmpty(team0Player2);
+      team0Player2 = getNameOrEmpty(team0Player2).split(" ")[0];
    }
    if (team1Player2 === undefined || team1Player2 === "undefined") {
       team1Player2 = "Empty";
    } else  if (team1Player2 !== "Empty") {
-      team1Player2 = getNameOrEmpty(team1Player2);
+      team1Player2 = getNameOrEmpty(team1Player2).split(" ")[0];
    }
 
    if (!boardFlipped) {
@@ -130,10 +134,18 @@ function playerStateToDisplay()
       board0BottomDiv.innerHTML = wrapTextWithTeamColors(0, team1Player1);
       board1TopDiv.innerHTML = wrapTextWithTeamColors(1, team0Player2);
       board1BottomDiv.innerHTML = wrapTextWithTeamColors(0, team1Player2);
+      topStats0Player.innerHTML = wrapTextWithTeamColors(1, team0Player1 + " Stats");
+      bottomStats0Player.innerHTML = wrapTextWithTeamColors(0, team1Player1 + " Stats");
+      topStats1Player.innerHTML = wrapTextWithTeamColors(1, team0Player2 + " Stats");
+      bottomStats1Player.innerHTML = wrapTextWithTeamColors(0, team1Player2 + " Stats");
    } else {
       board0TopDiv.innerHTML = wrapTextWithTeamColors(0, team1Player1);
       board0BottomDiv.innerHTML = wrapTextWithTeamColors(1, team0Player1);
       board1TopDiv.innerHTML = wrapTextWithTeamColors(0, team1Player2);
       board1BottomDiv.innerHTML = wrapTextWithTeamColors(1, team0Player2);
+      topStats0Player.innerHTML = wrapTextWithTeamColors(0, "Stats");
+      bottomStats0Player.innerHTML = wrapTextWithTeamColors(1, "Stats");
+      topStats1Player.innerHTML = wrapTextWithTeamColors(0, "Stats");
+      bottomStats1Player.innerHTML = wrapTextWithTeamColors(1, "Stats");
    }
 }
