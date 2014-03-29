@@ -76,6 +76,7 @@ table {
 <script src="https://67.169.101.121:8000/js/graphicalBoard.js"></script>
 <script src="https://67.169.101.121:8000/js/score.js"></script>
 <script src="https://67.169.101.121:8000/js/main.js"></script>
+<script src="https://67.169.101.121:8000/js/keypress.js"></script>
 
 <span id="title" style="font-size:36px; font-weight:bold; margin:10px;">HangGammon</span>
 
