@@ -24,8 +24,6 @@ function onStateChange(changeEvent)
 {
    var needRedraw = false;
 
-   LogStateClear('Change:');
-
    // The state in changeEvent contains the complete game state. Using the
    // timestamps we stored in stateMetaData find the entries we need to
    // update.

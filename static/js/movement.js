@@ -35,13 +35,11 @@ function movePiece(boardId, teamId, fromSlot, toSlot)
    // Only let team X pieces to move to HIT_X and PICKED_UP_X
    if (toSlot == pieceState.HIT_0 || toSlot == pieceState.PICKED_UP_0) {
       if (teamId == '1') {
-         LogMB("moveDelta:L39");
          return;
       }
    }
    if (toSlot == pieceState.HIT_1 || toSlot == pieceState.PICKED_UP_1) {
       if (teamId == '0') {
-         LogMB("moveDelta:L45");
          return;
       }
    }

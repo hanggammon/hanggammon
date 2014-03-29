@@ -21,10 +21,6 @@ function commitQueuedStateUpdates()
       return;
    }
 
-   LogQueueClear('<br>Commit: ');
-   for (var i in queuedUpdates) {
-      LogQueue(queuedUpdates[i].key + ' = ' + queuedUpdates[i].value + ',');
-   }
    // Use setValue() if there's a single update
    if (queuedUpdates.length == 1) {
       gapi.hangout.data.setValue(queuedUpdates[0].key,
