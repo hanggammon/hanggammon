@@ -121,8 +121,8 @@ table {
                 <tr><td style="height:100%" colspan="2"><td></tr>
               </table>
             </td></tr>
-            <tr><td style="height:50%">
-              <table style="height:100%;">
+            <tr><td style="height:50%; vertical-align:bottom;">
+              <table>
                 <tr><td colspan="2"><div id="bottomStats0Player">Stats</div></td></tr>
                 <tr><td><b>Hit</b></td><td><div id="bottomBoard0Hit">0%</div></td></tr>
                 <tr><td><b>Getting hit</b></td><td><div id="bottomBoard0GettingHit">0%</div></td></tr>
@@ -204,8 +204,8 @@ table {
                 <tr><td style="height:100%" colspan="2"><td></tr>
               </table>
             </td></tr>
-            <tr><td style="height:50%">
-              <table style="height:100%;">
+            <tr><td style="height:50%; vertical-align:bottom;">
+              <table>
                 <tr><td colspan="2"><div id="bottomStats1Player">Stats</div></td></tr>
                 <tr><td><b>Hit</b></td><td><div id="bottomBoard1Hit">0%</div></td></tr>
                 <tr><td><b>Getting hit</b></td><td><div id="bottomBoard1GettingHit">0%</div></td></tr>
