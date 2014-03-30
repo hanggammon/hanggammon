@@ -6,6 +6,20 @@ function zeroFillArray(arr, length) {
    }
 }
 
+// Creates a shallow clone of an array
+function cloneArray(arr) {
+   return arr.slice(0);
+}
+
+function diceStringToNumberArray(dices) {
+   var arr = dices.split(",");
+   for (var i=0; i<arr.length; i++) {
+      arr[i] = parseInt(arr[i], 10);
+   }
+
+   return arr;
+}
+
 function mergeSet(destination, source) {
    for (var element in source) {
       if (source.hasOwnProperty(element)) {
@@ -54,16 +68,12 @@ function getDiceCombinations(number, singleOnly) {
 
 function movePossible(hitteeBoard, dice, startingPosition, range, team0) {
    // dice is a string "<dice0>,<dice1>,..."
-   var dices = dice.split(",");
-   for (var i=0; i<dices.length; i++) {
-      dices[i] = parseInt(dices[i], 10);
-   }
-   if (dices.length === 2) {
-      // Could be a single hitter let's check.
-      if (dices[0] === range || dices[1] === range) {
-         //console.log("true for single " + dices);
-         return true;
-      }
+   var dices = diceStringToNumberArray(dice);
+
+   // Could be a single hitter let's check.
+   if (dices[0] === range || dices[1] === range) {
+      //console.log("true for single " + dices);
+      return true;
    }
 
    var hop = startingPosition
@@ -80,6 +90,7 @@ function movePossible(hitteeBoard, dice, startingPosition, range, team0) {
          break;
       }
    }
+
    if (i === dices.length) {
       // Didn't break so we found a winning combo
       //console.log("true for " + dices);
@@ -159,15 +170,172 @@ function findHitsInHouse(hitteeBoard, team0) {
    return allCombos;
 }
 
+// Generate all dice combinations that have fixed dice in them. Don't generate alternatives i.e. (1,2) (2,1).
+function generateDiceCombosFixed(fixedDice) {
+   var combos = { };
+
+   for (var i=1; i<=6; i++) {
+      combos[fixedDice + "," + i] = true;
+      if (i === fixedDice) {
+         // generate double hops
+         combos[i + "," + i + "," + i] = true;
+         combos[i + "," + i + "," + i + "," + i] = true;
+      }
+   }
+
+   return combos;
+}
+
+// find all dice combinations that can enter the house
+function findHouseDices(board, team0) {
+   var combos = { };
+
+   if (team0) {
+      for (var i=0; i<6; i++) {
+         if (board[23 - i] < 2) {
+            mergeSet(combos, generateDiceCombosFixed(i+1));
+         }
+      }
+   } else {
+      for (var i=0; i<6; i++) {
+         if (board[i] < 2) {
+            mergeSet(combos, generateDiceCombosFixed(i+1));
+         }
+      }
+   }
+
+   return combos;
+}
+
+function eliminateNonDoubles(combos, numHit) {
+   for (var c in combos) {
+      if (combos.hasOwnProperty(c)) {
+         var dices = c.split(",");
+         if (dices[0] != dices[1] || dices.length < numHit) {
+            delete combos[c];
+         }
+      }
+   }
+}
+
+// Find the biggest dice sum in combos
+function findMaxDice(combos) {
+   var sum = 0;
+
+   for (var c in combos) {
+      if (combos.hasOwnProperty(c)) {
+         var dices = diceStringToNumberArray(c);
+         var localSum = 0;
+         for (var i=0; i<dices.length; i++) {
+            localSum += dices[i];
+         }
+         if (localSum > sum) {
+            sum = localSum;
+         }
+      }
+   }
+
+   return sum;
+}
+
+
+// starting at slot. Find all pieces that can hit slot after pieces are in the house.
+function findHitsForPositionWithHitPieces(hitteeBoard, hitterBoard, slot, team0, houseCombos, hitterHit)
+{
+   var hittingCombos = {};
+
+   //console.log("Hitter board:")
+   //console.log(hitterBoard);
+   // For each dice combination
+   for (var hc in houseCombos) {
+      if (houseCombos.hasOwnProperty(hc)) {
+         var dices = diceStringToNumberArray(hc);
+         var newHitterBoard = cloneArray(hitterBoard);
+         var pos = slot;
+         var hittingDice = "";
+         // Set pieces in hitter board assuming they get in
+         for (var i=0; i<hitterHit; i++) {
+            if (i < dices.length) {
+               if (team0) {
+                  newHitterBoard[23 - (dices[i] - 1)] += 1;
+               } else {
+                  newHitterBoard[dices[i] - 1] += 1;
+               }
+
+            }
+         }
+         //console.log("Checking dice " + hc + " for slot " + slot);
+         //console.log(newHitterBoard);
+         for (var i=hitterHit; i<dices.length; i++) {
+            hittingDice += dices[i] + ",";
+            if (team0) {
+               pos += dices[i];
+            } else {
+               pos -= dices[i];
+            }
+            //console.log("hittingDice=" + hittingDice + " pos=" + pos);
+            if (pos >= 0 && pos <= 23) {
+               if (newHitterBoard[pos] > 0) {
+                  // potential hit, see if move is possible
+                  //console.log("potential hit at " + pos + " checking dice " + hittingDice);
+                  if (movePossible(hitteeBoard, hittingDice, pos, team0 ? pos - slot : pos + slot, team0)) {
+                     hittingCombos[hc] = true;
+                     if (dices.length === 2) {
+                        // Add reverse combo too
+                        hittingCombos[dices[1] + "," + dices[0]] = true;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   return hittingCombos;
+}
+
+
 function findAllHits(hitteeBoard, hitterBoard, team0) {
    var mergedCombinations = {};
+   var hitterHit = 0;
+   var houseCombos = {};
 
+   if (team0) {
+      if (hitterBoard[pieceState.HIT_1] > 0) {
+         // special case, opponent has pieces hit
+         hitterHit = hitterBoard[pieceState.HIT_1];
+         //console.log("team 1 has " + hitterHit + " hit pieces");
+      }
+   } else {
+      if (hitterBoard[pieceState.HIT_0] > 0) {
+         // special case, opponent has pieces hit
+         hitterHit = hitterBoard[pieceState.HIT_0];
+         //console.log("team 0 has " + hitterHit + " hit pieces");
+      }
+   }
+   if (hitterHit != 0) {
+      mergeSet(houseCombos, findHouseDices(hitteeBoard, team0));
+   }
+   if (hitterHit > 1) {
+      // Eliminate all but double dice combos that are enough to cover all hit pieces
+      eliminateNonDoubles(houseCombos, hitterHit);
+   }
+   if (hitterHit > 0) {
+      //console.log("potential house dice");
+      //console.log(houseCombos);
+   }
    for (var i=0; i<hitteeBoard.length; i++) {
       // Array with all possible hits
       //console.log("team0? " + team0 + " hitteeBoard[" + i + "]=" + hitteeBoard[i]);
       if (hitteeBoard[i] == 1) {
          //console.log("Position " + i + " can get hit");
-         mergeSet(mergedCombinations, findHitsForPosition(hitteeBoard, hitterBoard, i, team0));
+         if (hitterHit === 0) {
+            mergeSet(mergedCombinations, findHitsForPosition(hitteeBoard, hitterBoard, i, team0));
+         } else {
+            mergeSet(mergedCombinations,
+                     findHitsForPositionWithHitPieces(hitteeBoard, hitterBoard, i, team0, houseCombos, hitterHit));
+         }
+
       }
    }
 
