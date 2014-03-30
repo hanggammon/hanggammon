@@ -65,4 +65,5 @@ function updateDisplayState()
 
    playerStateToDisplay();
    scoreStateToDisplay();
+   updateStatsPage();
 }

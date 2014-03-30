@@ -143,9 +143,9 @@ function playerStateToDisplay()
       board0BottomDiv.innerHTML = wrapTextWithTeamColors(1, team0Player1);
       board1TopDiv.innerHTML = wrapTextWithTeamColors(0, team1Player2);
       board1BottomDiv.innerHTML = wrapTextWithTeamColors(1, team0Player2);
-      topStats0Player.innerHTML = wrapTextWithTeamColors(0, "Stats");
-      bottomStats0Player.innerHTML = wrapTextWithTeamColors(1, "Stats");
-      topStats1Player.innerHTML = wrapTextWithTeamColors(0, "Stats");
-      bottomStats1Player.innerHTML = wrapTextWithTeamColors(1, "Stats");
+      topStats0Player.innerHTML = wrapTextWithTeamColors(0, team1Player1 + " Stats");
+      bottomStats0Player.innerHTML = wrapTextWithTeamColors(1, team0Player1 + " Stats");
+      topStats1Player.innerHTML = wrapTextWithTeamColors(0, team1Player2 + " Stats");
+      bottomStats1Player.innerHTML = wrapTextWithTeamColors(1, team0Player2 + " Stats");
    }
 }

@@ -202,6 +202,22 @@ function drawTriangle(context, baseX, baseY, upwards)
    context.closePath();
 }
 
+function drawSlotNumber(context, baseX, baseY, upwards, slotNumber) {
+   var tipX, tipY;
+
+   context.fillStyle = '#000000';
+
+   if (upwards === true) {
+      tipX = baseX + piece / 2 - 2;
+      tipY = baseY - piece * 5 - 2;
+   } else {
+      tipX = baseX + piece / 2 - 2;
+      tipY = baseY + piece * 5 + 10;
+   }
+
+   context.fillText("" + slotNumber, tipX, tipY);
+}
+
 
 // Show a dice guide with the given offset to selectedSlot
 function showDiceGuide(context, guideOffset)
@@ -283,9 +299,14 @@ function boardStateToDisplay()
                          leftHalfMinXCoord + piece * j + middleOffset + j, // baseX
                          0,                                                // baseY
                          false);                                           // downwards
+
+            drawSlotNumber(context,
+                           leftHalfMinXCoord + piece * j + middleOffset + j, // baseX
+                           0,                                                // baseY
+                           false, j);                                        // downwards
          }
 
-         // bottom triangles
+         // bottom triangles and slot #
          for (j = 0; j < 12; j++) {
 
             // alternate black and white
@@ -302,6 +323,9 @@ function boardStateToDisplay()
                          leftHalfMinXCoord + piece * j + middleOffset + j, // baseX
                          boardHeight,                                      // baseY
                          true);                                            // upwards
+
+            drawSlotNumber(context, leftHalfMinXCoord + piece * j + middleOffset + j,
+                           boardHeight, true, 23 - j);
          }
 
          // middle

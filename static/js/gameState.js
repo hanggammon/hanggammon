@@ -13,7 +13,7 @@ var numDice = 2;
 var numTeams = 2;
 
 // State definitions
-pieceState = {
+var pieceState = {
    IN_SLOT_0   : 0,
    IN_SLOT_1   : 1,
    IN_SLOT_2   : 2,
@@ -92,7 +92,6 @@ function movePiecesToStandardLocations(boardId)
    gameState[getPieceKeyOnBoard(boardId, 0, 12)] = pieceState.IN_SLOT_18.toString();
    gameState[getPieceKeyOnBoard(boardId, 0, 13)] = pieceState.IN_SLOT_18.toString();
    gameState[getPieceKeyOnBoard(boardId, 0, 14)] = pieceState.IN_SLOT_18.toString();
-   gameState[getPieceKeyOnBoard(boardId, 0, 15)] = pieceState.IN_SLOT_18.toString();
 
    // Team 1
    gameState[getPieceKeyOnBoard(boardId, 1, 0)] = pieceState.IN_SLOT_23.toString();
@@ -110,7 +109,6 @@ function movePiecesToStandardLocations(boardId)
    gameState[getPieceKeyOnBoard(boardId, 1, 12)] = pieceState.IN_SLOT_5.toString();
    gameState[getPieceKeyOnBoard(boardId, 1, 13)] = pieceState.IN_SLOT_5.toString();
    gameState[getPieceKeyOnBoard(boardId, 1, 14)] = pieceState.IN_SLOT_5.toString();
-   gameState[getPieceKeyOnBoard(boardId, 1, 15)] = pieceState.IN_SLOT_5.toString();
 }
 
 // Return state key for player name
