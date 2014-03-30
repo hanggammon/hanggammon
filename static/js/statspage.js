@@ -192,6 +192,36 @@ function findAllHits(hitteeBoard, hitterBoard, team0) {
    return mergedCombinations;
 }
 
+// Find all combinations that lead to team0 getting back into the game
+function getHousePercentage(hitteeBoard, hitterBoard, team0)
+{
+   var combos = {};
+
+   if (team0) {
+      if (hitteeBoard[pieceState.HIT_0] > 0) {
+         // team 0 has a piece hit on this board
+         for (var i=0; i<6; i++) {
+            if (hitterBoard[i] < 2) {
+               mergeSet(combos, getDiceCombinations(i+1, true));
+            }
+         }
+      }
+   } else {
+      if (hitteeBoard[pieceState.HIT_1] > 0) {
+         // team 1 has a piece hit on this board
+         for (var i=0; i<6; i++) {
+            if (hitterBoard[23 - i] < 2) {
+               mergeSet(combos, getDiceCombinations(i+1, true));
+            }
+         }
+      }
+   }
+
+   //console.log("Found these combos");
+   //console.log(combos);
+   return combinationPercentage(combos);
+}
+
 // Return how a percentage number of how likely the given dice combinations are
 function combinationPercentage(combos) {
    var numCombinations = 0;
@@ -223,7 +253,7 @@ function combinationPercentage(combos) {
       }
    }
 
-   console.log(numCombinations + " combinations found");
+   //console.log(numCombinations + " combinations found");
    if (numCombinations === 0) {
       // Sigh imprecise javascript math says hi
       return 0;
@@ -241,7 +271,8 @@ function updateHittingStats(team0Board, team1Board, boardNum) {
    var team1GettingHitPercentage = combinationPercentage(team1Combinations)
    var team0HitPercentage = team1GettingHitPercentage;
    var team1HitPercentage = team0GettingHitPercentage;
-
+   var team0HousePercentage = getHousePercentage(team0Board, team1Board, true);
+   var team1HousePercentage = getHousePercentage(team1Board, team0Board, false);
 
    console.log("board " + boardNum + " team 0");
    console.log(team0Combinations);
@@ -250,7 +281,6 @@ function updateHittingStats(team0Board, team1Board, boardNum) {
    console.log(team1Combinations);
    console.log("Probability: " + team1GettingHitPercentage);
 
-   document.getElementById("topBoard0Hit");
    var team0String = "bottom";
    var team1String = "top";
    if (boardFlipped) {
@@ -262,6 +292,8 @@ function updateHittingStats(team0Board, team1Board, boardNum) {
    document.getElementById(team1String + "Board" + boardNum + "GettingHit").innerHTML = team1GettingHitPercentage + "%";
    document.getElementById(team0String + "Board" + boardNum + "Hit").innerHTML = team0HitPercentage + "%";
    document.getElementById(team1String + "Board" + boardNum + "Hit").innerHTML = team1HitPercentage + "%";
+   document.getElementById(team0String + "Board" + boardNum + "House").innerHTML = team0HousePercentage + "%";
+   document.getElementById(team1String + "Board" + boardNum + "House").innerHTML = team1HousePercentage + "%";
 }
 
 function updateStatsPage() {
