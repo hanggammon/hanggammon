@@ -117,7 +117,7 @@ table {
                 <tr><td colspan="2"><div id="topStats0Player">Stats</div></td></tr>
                 <tr><td><b>Hit</b></td><td><div id="topBoard0Hit">0%</div></td></tr>
                 <tr><td><b>Getting hit</b></td><td><div id="topBoard0GettingHit">0%</div></td></tr>
-                <tr><td><b>House</b></td><td><div id="topBoard0House">0%</div></td></tr>
+                <tr><td><b>Getting In</b></td><td><div id="topBoard0GettingIn">0%</div></td></tr>
                 <tr><td style="height:100%" colspan="2"><td></tr>
               </table>
             </td></tr>
@@ -126,7 +126,7 @@ table {
                 <tr><td colspan="2"><div id="bottomStats0Player">Stats</div></td></tr>
                 <tr><td><b>Hit</b></td><td><div id="bottomBoard0Hit">0%</div></td></tr>
                 <tr><td><b>Getting hit</b></td><td><div id="bottomBoard0GettingHit">0%</div></td></tr>
-                <tr><td><b>House</b></td><td><div id="bottomBoard0House">0%</div></td></tr>
+                <tr><td><b>Getting In</b></td><td><div id="bottomBoard0GettingIn">0%</div></td></tr>
                 <tr><td style="height:100%" colspan="2"><td></tr>
               </table>
             </td></tr>
@@ -200,7 +200,7 @@ table {
                 <tr><td colspan="2"><div id="topStats1Player">Stats</div></td></tr>
                 <tr><td><b>Hit</b></td><td><div id="topBoard1Hit">0%</div></td></tr>
                 <tr><td><b>Getting hit</b></td><td><div id="topBoard1GettingHit">0%</div></td></tr>
-                <tr><td><b>House</b></td><td><div id="topBoard1House">0%</div></td></tr>
+                <tr><td><b>Getting In</b></td><td><div id="topBoard1GettingIn">0%</div></td></tr>
                 <tr><td style="height:100%" colspan="2"><td></tr>
               </table>
             </td></tr>
@@ -209,7 +209,7 @@ table {
                 <tr><td colspan="2"><div id="bottomStats1Player">Stats</div></td></tr>
                 <tr><td><b>Hit</b></td><td><div id="bottomBoard1Hit">0%</div></td></tr>
                 <tr><td><b>Getting hit</b></td><td><div id="bottomBoard1GettingHit">0%</div></td></tr>
-                <tr><td><b>House</b></td><td><div id="bottomBoard1House">0%</div></td></tr>
+                <tr><td><b>Getting In</b></td><td><div id="bottomBoard1GettingIn">0%</div></td></tr>
                 <tr><td style="height:100%" colspan="2"><td></tr>
               </table>
             </td></tr>

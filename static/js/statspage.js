@@ -155,7 +155,7 @@ function findHitsInHouse(hitteeBoard, team0) {
    if (team0) {
       for (var i=0; i<6; i++) {
          if (hitteeBoard[23 - i] === 1) {
-            //console.log("Found house hitter at " + (23 - i))
+            //console.log("Found Getting In hitter at " + (23 - i))
             mergeSet(allCombos, getDiceCombinations(i+1, true));
          }
       }
@@ -187,7 +187,7 @@ function generateDiceCombosFixed(fixedDice) {
 }
 
 // find all dice combinations that can enter the house
-function findHouseDices(board, team0) {
+function findGettingInDices(board, team0) {
    var combos = { };
 
    if (team0) {
@@ -240,15 +240,15 @@ function findMaxDice(combos) {
 
 
 // starting at slot. Find all pieces that can hit slot after pieces are in the house.
-function findHitsForPositionWithHitPieces(hitteeBoard, hitterBoard, slot, team0, houseCombos, hitterHit)
+function findHitsForPositionWithHitPieces(hitteeBoard, hitterBoard, slot, team0, gettingInCombos, hitterHit)
 {
    var hittingCombos = {};
 
    //console.log("Hitter board:")
    //console.log(hitterBoard);
    // For each dice combination
-   for (var hc in houseCombos) {
-      if (houseCombos.hasOwnProperty(hc)) {
+   for (var hc in gettingInCombos) {
+      if (gettingInCombos.hasOwnProperty(hc)) {
          var dices = diceStringToNumberArray(hc);
          var newHitterBoard = cloneArray(hitterBoard);
          var pos = slot;
@@ -298,7 +298,7 @@ function findHitsForPositionWithHitPieces(hitteeBoard, hitterBoard, slot, team0,
 function findAllHits(hitteeBoard, hitterBoard, team0) {
    var mergedCombinations = {};
    var hitterHit = 0;
-   var houseCombos = {};
+   var GettingInCombos = {};
 
    if (team0) {
       if (hitterBoard[pieceState.HIT_1] > 0) {
@@ -314,15 +314,15 @@ function findAllHits(hitteeBoard, hitterBoard, team0) {
       }
    }
    if (hitterHit != 0) {
-      mergeSet(houseCombos, findHouseDices(hitteeBoard, team0));
+      mergeSet(GettingInCombos, findGettingInDices(hitteeBoard, team0));
    }
    if (hitterHit > 1) {
       // Eliminate all but double dice combos that are enough to cover all hit pieces
-      eliminateNonDoubles(houseCombos, hitterHit);
+      eliminateNonDoubles(GettingInCombos, hitterHit);
    }
    if (hitterHit > 0) {
-      //console.log("potential house dice");
-      //console.log(houseCombos);
+      //console.log("potential GettingIn dice");
+      //console.log(GettingInCombos);
    }
    for (var i=0; i<hitteeBoard.length; i++) {
       // Array with all possible hits
@@ -333,7 +333,7 @@ function findAllHits(hitteeBoard, hitterBoard, team0) {
             mergeSet(mergedCombinations, findHitsForPosition(hitteeBoard, hitterBoard, i, team0));
          } else {
             mergeSet(mergedCombinations,
-                     findHitsForPositionWithHitPieces(hitteeBoard, hitterBoard, i, team0, houseCombos, hitterHit));
+                     findHitsForPositionWithHitPieces(hitteeBoard, hitterBoard, i, team0, GettingInCombos, hitterHit));
          }
 
       }
@@ -342,13 +342,13 @@ function findAllHits(hitteeBoard, hitterBoard, team0) {
    //console.log("Forward: " + team0 + " HIT_0 " + hitterBoard[pieceState.HIT_0] + " HIT_1 " +
    //            hitterBoard[pieceState.HIT_1]);
    if (team0) {
-      // check house for hits on team 0
+      // check GettingIn for hits on team 0
       if (hitterBoard[pieceState.HIT_1] > 0) {
          // team 1 has one or more pieces out
          mergeSet(mergedCombinations, findHitsInHouse(hitteeBoard, team0));
       }
    } else {
-      // check house for hits on team 1
+      // check GettingIn for hits on team 1
       if (hitterBoard[pieceState.HIT_0] > 0) {
          // team 1 has one or more pieces out
          mergeSet(mergedCombinations, findHitsInHouse(hitteeBoard, team0));
@@ -361,7 +361,7 @@ function findAllHits(hitteeBoard, hitterBoard, team0) {
 }
 
 // Find all combinations that lead to team0 getting back into the game
-function getHousePercentage(hitteeBoard, hitterBoard, team0)
+function getGettingInPercentage(hitteeBoard, hitterBoard, team0)
 {
    var combos = {};
 
@@ -439,8 +439,8 @@ function updateHittingStats(team0Board, team1Board, boardNum) {
    var team1GettingHitPercentage = combinationPercentage(team1Combinations)
    var team0HitPercentage = team1GettingHitPercentage;
    var team1HitPercentage = team0GettingHitPercentage;
-   var team0HousePercentage = getHousePercentage(team0Board, team1Board, true);
-   var team1HousePercentage = getHousePercentage(team1Board, team0Board, false);
+   var team0GettingInPercentage = getGettingInPercentage(team0Board, team1Board, true);
+   var team1GettingInPercentage = getGettingInPercentage(team1Board, team0Board, false);
 
    console.log("board " + boardNum + " team 0");
    console.log(team0Combinations);
@@ -460,8 +460,8 @@ function updateHittingStats(team0Board, team1Board, boardNum) {
    document.getElementById(team1String + "Board" + boardNum + "GettingHit").innerHTML = team1GettingHitPercentage + "%";
    document.getElementById(team0String + "Board" + boardNum + "Hit").innerHTML = team0HitPercentage + "%";
    document.getElementById(team1String + "Board" + boardNum + "Hit").innerHTML = team1HitPercentage + "%";
-   document.getElementById(team0String + "Board" + boardNum + "House").innerHTML = team0HousePercentage + "%";
-   document.getElementById(team1String + "Board" + boardNum + "House").innerHTML = team1HousePercentage + "%";
+   document.getElementById(team0String + "Board" + boardNum + "GettingIn").innerHTML = team0GettingInPercentage + "%";
+   document.getElementById(team1String + "Board" + boardNum + "GettingIn").innerHTML = team1GettingInPercentage + "%";
 }
 
 function updateStatsPage() {
