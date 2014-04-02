@@ -187,6 +187,7 @@ function generateDiceCombosFixed(fixedDice) {
 }
 
 // find all dice combinations that can enter the house
+// XXX: take more than one hit piece into account
 function findGettingInDices(board, team0) {
    var combos = { };
 
