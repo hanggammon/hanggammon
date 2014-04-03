@@ -102,6 +102,8 @@ function playerStateToDisplay()
    var bottomStats0Player = document.getElementById('bottomStats0Player');
    var topStats1Player = document.getElementById('topStats1Player');
    var bottomStats1Player = document.getElementById('bottomStats1Player');
+   var topCombinedStats = document.getElementById('topCombinedStats');
+   var bottomCombinedStats = document.getElementById('bottomCombinedStats');
 
    var team0Player1 = gameState[getPlayerNameKey(1, 0)];
    var team1Player1 = gameState[getPlayerNameKey(0, 0)];
@@ -138,6 +140,8 @@ function playerStateToDisplay()
       bottomStats0Player.innerHTML = wrapTextWithTeamColors(0, "Stats");
       topStats1Player.innerHTML = wrapTextWithTeamColors(1, "Stats");
       bottomStats1Player.innerHTML = wrapTextWithTeamColors(0, "Stats");
+      topCombinedStats.innerHTML = wrapTextWithTeamColors(1, "Combined");
+      bottomCombinedStats.innerHTML = wrapTextWithTeamColors(0, "Combined");
    } else {
       board0TopDiv.innerHTML = wrapTextWithTeamColors(0, team1Player1);
       board0BottomDiv.innerHTML = wrapTextWithTeamColors(1, team0Player1);
@@ -147,5 +151,7 @@ function playerStateToDisplay()
       bottomStats0Player.innerHTML = wrapTextWithTeamColors(1, "Stats");
       topStats1Player.innerHTML = wrapTextWithTeamColors(0, "Stats");
       bottomStats1Player.innerHTML = wrapTextWithTeamColors(1, "Stats");
+      topCombinedStats.innerHTML = wrapTextWithTeamColors(0, "Combined");
+      bottomCombinedStats.innerHTML = wrapTextWithTeamColors(1, "Combined");
    }
 }

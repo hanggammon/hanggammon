@@ -28,6 +28,48 @@ function mergeSet(destination, source) {
    }
 }
 
+// Create a shallow clone of setToClone
+function cloneSet(setToClone) {
+   var result = {};
+
+   for (var e in setToClone) {
+      if (setToClone.hasOwnProperty(e)) {
+         result[e] = setToClone[e];
+      }
+   }
+
+   return result;
+}
+
+// return a set that contains all elements of setA and setB
+function addSets(setA, setB) {
+   var result = cloneSet(setA);
+
+   for (var e in setB) {
+      if (setB.hasOwnProperty((e))) {
+         result[e] = setB[e];
+      }
+   }
+
+   return result;
+}
+
+// Intersect set a and b and return the resulting set
+function intersectSets(setA, setB)
+{
+   var result = {};
+
+   for (var element in setA) {
+      if (setA.hasOwnProperty(element)) {
+         if (setB.hasOwnProperty(element)) {
+            result[element] = setA[element];
+         }
+      }
+   }
+
+   return result;
+}
+
 // Returns a list of possible dice combinations that add up to number
 function getDiceCombinations(number, singleOnly) {
 
@@ -362,7 +404,7 @@ function findAllHits(hitteeBoard, hitterBoard, team0) {
 }
 
 // Find all combinations that lead to team0 getting back into the game
-function getGettingInPercentage(hitteeBoard, hitterBoard, team0)
+function calcGettingIn(hitteeBoard, hitterBoard, team0)
 {
    var combos = {};
 
@@ -394,7 +436,7 @@ function getGettingInPercentage(hitteeBoard, hitterBoard, team0)
 
    //console.log("Found these combos");
    //console.log(combos);
-   return combinationPercentage(combos);
+   return { "combos": combos, "percentage": combinationPercentage(combos) };
 }
 
 // Return how a percentage number of how likely the given dice combinations are
@@ -437,24 +479,30 @@ function combinationPercentage(combos) {
    }
 }
 
-function updateHittingStats(team0Board, team1Board, boardNum) {
+function updateHittingStats(team0Board, team1Board, boardNum, result) {
    //console.log("board " + boardNum + " Team 0 find all hits");
-   var team0Combinations = findAllHits(team0Board, team1Board, true);
-   //console.log("board " + boardNum + " Team 1 find all hits");
-   var team1Combinations = findAllHits(team1Board, team0Board, false);
-   var team0GettingHitPercentage = combinationPercentage(team0Combinations);
-   var team1GettingHitPercentage = combinationPercentage(team1Combinations)
+   var boardResult = result["board" + boardNum] = {};
+   var team0Result = boardResult["team0"] = {};
+   var team1Result = boardResult["team1"] = {};
+
+   team0Result["GettingHit"] = findAllHits(team0Board, team1Board, true);;
+   team0Result["GettingIn"] = calcGettingIn(team0Board, team1Board, true);
+   team1Result["GettingHit"] = findAllHits(team1Board, team0Board, false);
+   team1Result["GettingIn"] = calcGettingIn(team1Board, team0Board, false);
+
+   var team0GettingHitPercentage = combinationPercentage(team0Result["GettingHit"]);
+   var team1GettingHitPercentage = combinationPercentage(team1Result["GettingHit"])
    var team0HitPercentage = team1GettingHitPercentage;
    var team1HitPercentage = team0GettingHitPercentage;
-   var team0GettingInPercentage = getGettingInPercentage(team0Board, team1Board, true);
-   var team1GettingInPercentage = getGettingInPercentage(team1Board, team0Board, false);
+   var team0GettingInPercentage = calcGettingIn(team0Board, team1Board, true).percentage;
+   var team1GettingInPercentage = calcGettingIn(team1Board, team0Board, false).percentage;
 
-   console.log("board " + boardNum + " team 0");
-   console.log(team0Combinations);
-   console.log("Probability: " + team0GettingHitPercentage);
-   console.log("board " + boardNum + " team 1");
-   console.log(team1Combinations);
-   console.log("Probability: " + team1GettingHitPercentage);
+   //console.log("board " + boardNum + " team 0");
+   //console.log(team0Combinations);
+   //console.log("Probability: " + team0GettingHitPercentage);
+   //console.log("board " + boardNum + " team 1");
+   //console.log(team1Combinations);
+   //console.log("Probability: " + team1GettingHitPercentage);
 
    var team0String = "bottom";
    var team1String = "top";
@@ -463,16 +511,80 @@ function updateHittingStats(team0Board, team1Board, boardNum) {
       team1String = "bottom";
    }
 
-   document.getElementById(team0String + "Board" + boardNum + "GettingHit").innerHTML = team0GettingHitPercentage + "%";
-   document.getElementById(team1String + "Board" + boardNum + "GettingHit").innerHTML = team1GettingHitPercentage + "%";
-   document.getElementById(team0String + "Board" + boardNum + "Hit").innerHTML = team0HitPercentage + "%";
-   document.getElementById(team1String + "Board" + boardNum + "Hit").innerHTML = team1HitPercentage + "%";
-   document.getElementById(team0String + "Board" + boardNum + "GettingIn").innerHTML = team0GettingInPercentage + "%";
-   document.getElementById(team1String + "Board" + boardNum + "GettingIn").innerHTML = team1GettingInPercentage + "%";
+
+   document.getElementById(team0String + "Board" + boardNum + "GettingHit").innerHTML =
+      team0GettingHitPercentage + "%";
+   document.getElementById(team1String + "Board" + boardNum + "GettingHit").innerHTML =
+      team1GettingHitPercentage + "%";
+   document.getElementById(team0String + "Board" + boardNum + "Hit").innerHTML =
+      team0HitPercentage + "%";
+   document.getElementById(team1String + "Board" + boardNum + "Hit").innerHTML =
+      team1HitPercentage + "%";
+   document.getElementById(team0String + "Board" + boardNum + "GettingIn").innerHTML =
+      team0GettingInPercentage + "%";
+   document.getElementById(team1String + "Board" + boardNum + "GettingIn").innerHTML =
+      team1GettingInPercentage + "%";
+
+   if (boardNum == 1) {
+      // second board we now have results for both teams
+      var team0CombinedGettingHitPercentage =
+         combinationPercentage(intersectSets(result["board0"]["team0"]["GettingHit"],
+                                             result["board1"]["team0"]["GettingHit"]));
+      var team1CombinedGettingHitPercentage =
+         combinationPercentage(intersectSets(result["board0"]["team1"]["GettingHit"],
+                                             result["board1"]["team1"]["GettingHit"]));
+      var team0CombinedGettingInPercentage =
+         combinationPercentage(intersectSets(result["board0"]["team0"]["GettingIn"].combos,
+                                             result["board1"]["team0"]["GettingIn"].combos));
+      var team1CombinedGettingInPercentage =
+         combinationPercentage(intersectSets(result["board0"]["team1"]["GettingIn"].combos,
+                                             result["board1"]["team1"]["GettingIn"].combos));
+
+      document.getElementById(team0String + "CombinedHit").innerHTML =
+         team1CombinedGettingHitPercentage + "%";
+      document.getElementById(team1String + "CombinedHit").innerHTML =
+         team0CombinedGettingHitPercentage + "%";
+      document.getElementById(team0String + "CombinedGettingHit").innerHTML =
+         team0CombinedGettingHitPercentage + "%";
+      document.getElementById(team1String + "CombinedGettingHit").innerHTML =
+         team1CombinedGettingHitPercentage + "%";
+      document.getElementById(team0String + "CombinedGettingIn").innerHTML =
+         team0CombinedGettingInPercentage + "%";
+      document.getElementById(team1String + "CombinedGettingIn").innerHTML =
+         team1CombinedGettingInPercentage + "%";
+
+      // second board we now have results for both teams
+      var team0CombinedGettingAnyHitPercentage =
+         combinationPercentage(addSets(result["board0"]["team0"]["GettingHit"],
+            result["board1"]["team0"]["GettingHit"]));
+      var team1CombinedGettingAnyHitPercentage =
+         combinationPercentage(addSets(result["board0"]["team1"]["GettingHit"],
+            result["board1"]["team1"]["GettingHit"]));
+      var team0CombinedGettingAnyInPercentage =
+         combinationPercentage(addSets(result["board0"]["team0"]["GettingIn"].combos,
+            result["board1"]["team0"]["GettingIn"].combos));
+      var team1CombinedGettingAnyInPercentage =
+         combinationPercentage(addSets(result["board0"]["team1"]["GettingIn"].combos,
+            result["board1"]["team1"]["GettingIn"].combos));
+
+      document.getElementById(team0String + "CombinedAnyHit").innerHTML =
+         team1CombinedGettingAnyHitPercentage + "%";
+      document.getElementById(team1String + "CombinedAnyHit").innerHTML =
+         team0CombinedGettingAnyHitPercentage + "%";
+      document.getElementById(team0String + "CombinedGettingAnyHit").innerHTML =
+         team0CombinedGettingAnyHitPercentage + "%";
+      document.getElementById(team1String + "CombinedGettingAnyHit").innerHTML =
+         team1CombinedGettingAnyHitPercentage + "%";
+      document.getElementById(team0String + "CombinedGettingAnyIn").innerHTML =
+         team0CombinedGettingAnyInPercentage + "%";
+      document.getElementById(team1String + "CombinedGettingAnyIn").innerHTML =
+         team1CombinedGettingAnyInPercentage + "%";      
+   }
 }
 
 function updateStatsPage() {
    var boards = [];
+   var result = {};
 
    var numPiecesPerSlot = makeZeroFilledIntArray(pieceState.NUM_STATES);
    
@@ -501,6 +613,6 @@ function updateStatsPage() {
    }
 
    for (var j=0; j<2; j++) {
-      updateHittingStats(boards[j][0], boards[j][1], j);
+      updateHittingStats(boards[j][0], boards[j][1], j, result);
    }
 }
