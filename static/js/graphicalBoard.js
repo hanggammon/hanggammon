@@ -202,9 +202,23 @@ function drawTriangle(context, baseX, baseY, upwards)
    context.closePath();
 }
 
-function drawSlotNumber(context, baseX, baseY, upwards, slotNumber) {
+function drawSlotNumber(context, baseX, baseY, upwards, slotNumber, width, height) {
    var tipX, tipY;
 
+   context.save();
+
+   if (boardFlipped) {
+      context.translate(width, height);
+      context.rotate(Math.PI);
+
+      if (boardFlipped) {
+         if (slotNumber <= 11) {
+            slotNumber += 12;
+         } else {
+            slotNumber = (slotNumber + 12) % 24;
+         }
+      }
+   }
    context.fillStyle = '#000000';
 
    if (upwards === true) {
@@ -216,6 +230,7 @@ function drawSlotNumber(context, baseX, baseY, upwards, slotNumber) {
    }
 
    context.fillText("" + slotNumber, tipX, tipY);
+   context.restore();
 }
 
 
@@ -231,7 +246,7 @@ function showDiceGuide(context, guideOffset)
    }
 
    if (guideSlot >= pieceState.IN_SLOT_0 && guideSlot <= pieceState.IN_SLOT_23) {
-      coords = getCoordinatesFromSlot(guideSlot);
+      var coords = getCoordinatesFromSlot(guideSlot);
       for (var j = 0; j < coords.length; j++) {
          context.strokeRect(coords[j].x1,
                             coords[j].y1,
@@ -303,7 +318,8 @@ function boardStateToDisplay()
             drawSlotNumber(context,
                            leftHalfMinXCoord + piece * j + middleOffset + j, // baseX
                            0,                                                // baseY
-                           false, j);                                        // downwards
+                           false, j,                                         // downwards
+                           boards[i].width, boards[i].height);
          }
 
          // bottom triangles and slot #
@@ -325,7 +341,7 @@ function boardStateToDisplay()
                          true);                                            // upwards
 
             drawSlotNumber(context, leftHalfMinXCoord + piece * j + middleOffset + j,
-                           boardHeight, true, 23 - j);
+                           boardHeight, true, 23 - j, boards[i].width, boards[i].height);
          }
 
          // middle
