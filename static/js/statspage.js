@@ -375,6 +375,9 @@ function getGettingInPercentage(hitteeBoard, hitterBoard, team0)
             }
          }
       }
+      if (hitteeBoard[pieceState.HIT_0] > 1) {
+         eliminateNonDoubles(combos, hitteeBoard[pieceState.HIT_0]);
+      }
    } else {
       if (hitteeBoard[pieceState.HIT_1] > 0) {
          // team 1 has a piece hit on this board
@@ -383,6 +386,9 @@ function getGettingInPercentage(hitteeBoard, hitterBoard, team0)
                mergeSet(combos, getDiceCombinations(i+1, true));
             }
          }
+      }
+      if (hitteeBoard[pieceState.HIT_1] > 1) {
+         eliminateNonDoubles(combos, hitteeBoard[pieceState.HIT_1]);
       }
    }
 
